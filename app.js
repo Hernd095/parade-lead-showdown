@@ -17,18 +17,19 @@ async function pushCloud(){
     else await fetch(SUPABASE_URL+"/rest/v1/games",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({code:GAME_CODE,...payload})});
   }catch(e){console.error("Cloud sync:",e)}
 }
+let lastCloud=""; let lastStrikeFlash=0, lastNavFlash=0; let lastAnswerFlash=0;
 async function pullCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
     const rows=await r.json();
     if(rows[0]?.state?.state){
       applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
+      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0;
       localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
       render(); applyingRemote=false;
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
   }catch(e){console.error("Cloud pull:",e)}
 }
-let lastCloud=""; let lastStrikeFlash=0, lastNavFlash=0; let lastAnswerFlash=0;
 async function pollCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
