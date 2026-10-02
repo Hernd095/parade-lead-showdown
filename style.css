@@ -8,3 +8,14 @@ header{position:relative;z-index:10;display:flex;align-items:center;justify-cont
 textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid #4f70b3;border-radius:8px;padding:10px;font:600 14px Inter}label{display:block;margin:11px 0 5px;font-weight:800}.editAns{display:grid;grid-template-columns:1fr 100px 70px;gap:8px;margin:7px 0}
 .audience header{display:none}.audience main{max-width:none;padding:2.2vw}.audience .board{min-height:95vh;display:flex;flex-direction:column;justify-content:center}.audience .question{font-size:clamp(30px,4vw,65px)}.audience .answer{min-height:9vh;font-size:clamp(20px,2.25vw,40px)}.audience .answer .num,.audience .answer .pts{font-size:clamp(22px,2.2vw,38px)}
 @media(max-width:760px){header{position:static;align-items:flex-start;flex-direction:column}.answers{grid-template-columns:1fr}.scores{grid-template-columns:1fr}.editAns{grid-template-columns:1fr 80px 60px}.board{padding:18px 14px}.answer{min-height:65px;grid-template-columns:52px 1fr 60px}.answer .num{font-size:22px}.covered:after,.covered:before{left:52px}.audience .question{font-size:6vw}.audience .answer{font-size:4vw}}
+
+.hostPreviewWrap{margin:0 0 22px;padding:14px;border:1px solid #d7ad45;border-radius:18px;background:#02091d;box-shadow:0 12px 30px #0008}
+.hostPreviewLabel{text-align:center;color:#ffd15a;font-weight:800;font-size:12px;letter-spacing:2px;margin:0 0 10px}
+.hostPreview{height:390px;overflow:hidden;border-radius:12px;background:#02091d}
+.hostPreview .board{width:166.666%;min-height:0;transform:scale(.6);transform-origin:top left;padding:24px}
+.hostPreview .question{font-size:31px;margin-bottom:18px}
+.hostPreview .answer{min-height:58px;font-size:18px}
+.hostPreview .answer .num,.hostPreview .answer .pts{font-size:20px}
+.hostPreview .scores{margin-top:18px}
+.hostPreview .score b,.hostPreview .bank b{font-size:31px}
+@media(max-width:760px){.hostPreview{height:300px}.hostPreview .board{width:200%;transform:scale(.5)}}
