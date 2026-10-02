@@ -23,6 +23,7 @@ async function pullCloud(){
     const rows=await r.json();
     if(rows[0]?.state?.state){
       applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
+      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0;
       localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
       render(); applyingRemote=false;
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
@@ -59,7 +60,7 @@ function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));l
 function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));state=JSON.parse(localStorage.getItem("plsState")||JSON.stringify(state))}
 function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");render()}
 function bank(){return questions[state.round].answers.reduce((s,a,i)=>s+(state.revealed.includes(i)?a[1]:0),0)*state.mult}
-function reveal(i){if(i>=questions[state.round].answers.length)return;if(!state.revealed.includes(i))state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
+function reveal(i){if(i>=questions[state.round].answers.length||state.revealed.includes(i))return;state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
 function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1800)}
 function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Date.now();flashStrike();save();render()}
 function award(t){state[t]+=bank();state.revealed=[];state.strikes=0;tone(900,.25);save();render()}
@@ -67,7 +68,7 @@ function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questio
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family%20feud%20buzzer%20-%20QuickSounds.com.mp3";
 const SOUND_NEXT="./Family%20Feud%20theme%20-%20After%201st%20Fast%20Money%20-%20QuickSounds.com.mp3";
-function playClip(src){try{const a=new Audio(src);a.volume=1;a.play().catch(()=>{})}catch(e){}}
+function playClip(src){if(!new URLSearchParams(location.search).has("audience"))return;try{const a=new Audio(src);a.volume=1;a.play().catch(()=>{})}catch(e){}}
 function answerSound(){playClip(SOUND_REVEAL)}
 function buzzerSound(){playClip(SOUND_BUZZER)}
 function nextQuestionSound(){playClip(SOUND_NEXT)}
