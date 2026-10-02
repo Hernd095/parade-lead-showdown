@@ -28,7 +28,7 @@ async function pullCloud(){
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
   }catch(e){console.error("Cloud pull:",e)}
 }
-let lastCloud=""; let lastStrikeFlash=state.strikeFlash||0; let lastAnswerFlash=state.answerFlash||0;
+let lastCloud=""; let lastStrikeFlash=0; let lastAnswerFlash=0;
 async function pollCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
@@ -47,7 +47,7 @@ function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.
 function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");render()}
 function bank(){return questions[state.round].answers.reduce((s,a,i)=>s+(state.revealed.includes(i)?a[1]:0),0)*state.mult}
 function reveal(i){if(i>=questions[state.round].answers.length)return;if(!state.revealed.includes(i))state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
-function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1400)}
+function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1800)}
 function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Date.now();flashStrike();save();render()}
 function award(t){state[t]+=bank();state.revealed=[];state.strikes=0;tone(900,.25);save();render()}
 function nav(n){state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;save();render()}
