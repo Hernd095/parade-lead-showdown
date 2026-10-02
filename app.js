@@ -1,10 +1,48 @@
+const SUPABASE_URL="https://chjetlbimlujuszbibzt.supabase.co";
+const SUPABASE_KEY="sb_publishable_jbBinxUbi4Z530pbCu3ODw_5s0VWPkU";
+const GAME_CODE="parade-lead-live";
+let applyingRemote=false;
+async function cloudRequest(method,body){
+  const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE),{
+    method,headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:body?JSON.stringify(body):undefined});
+  if(!r.ok)throw new Error(await r.text());
+}
+async function pushCloud(){
+  if(applyingRemote)return;
+  const payload={state:{state,questions},updated_at:new Date().toISOString()};
+  try{
+    const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE),{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+    const rows=await r.json();
+    if(rows.length) await cloudRequest("PATCH",payload);
+    else await fetch(SUPABASE_URL+"/rest/v1/games",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({code:GAME_CODE,...payload})});
+  }catch(e){console.error("Cloud sync:",e)}
+}
+async function pullCloud(){
+  try{
+    const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+    const rows=await r.json();
+    if(rows[0]?.state?.state){
+      applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
+      localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
+      render(); applyingRemote=false;
+    } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
+  }catch(e){console.error("Cloud pull:",e)}
+}
+let lastCloud="";
+async function pollCloud(){
+  try{
+    const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+    const rows=await r.json(), row=rows[0];
+    if(row&&row.updated_at!==lastCloud){lastCloud=row.updated_at;if(row.state?.state){applyingRemote=true;state=row.state.state;questions=row.state.questions||questions;localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));render();applyingRemote=false}}
+  }catch(e){}
+}
 const DEFAULT_GAME=[{"q":"What's in the comfort kit?","answers":[["Bandages",30],["Insect Sting Swab",25],["Splinter Removal",20],["Throat Lozenges",15],["Moleskin",10],["Baby Powder",8],["Eye Wash",6],["Synthetic Medical Gloves",5]],"note":"Additional source answers: Ibuprofen; Acetaminophen; Antacid Tablets; Antihistamine; Bacitracin ointments; Hydrocortisone cream; Cold pack; Hot pack."},{"q":"Which floats are a one person clear?","answers":[["Opening",30],["All Books",25],["Candy House",20],["The Trees",15],["Toy Blocks",10]]},{"q":"Which floats are a two person clear? i.e. side to side","answers":[["Frozen",30],["Ballroom",20],["Santa",10]]},{"q":"What is the P.A.S.S model?","answers":[["Pull",25],["Aim",25],["Squeeze",25],["Sweep",25]]},{"q":"What are the different types of Fire Extinguishers?","answers":[["Class A",25],["Class B",20],["Class C",20],["Class D",15],["Class ABC",20]],"note":"Class A: ordinary solid combustibles. Class B: flammable liquids and gases. Class C: energized electrical equipment. Class D: combustible metals. Class ABC: multi-purpose for ordinary combustibles, flammable liquids, and energized electrical equipment."},{"q":"What are the top responsibilities for the Fantasyland lead at the sign in board?","answers":[["Check for Show Look",25],["Monitor time clock reporting",20],["Check the call out log",15],["Inform Parade 1 of missing Cast",15],["Call scheduling for missing cast",10],["Relay changes to fellow leads",10],["PA announcements",5]]},{"q":"Name something to check or do when dispatching parade trams or shuttles.","answers":[["Check in with Show Services Driver",25],["Verify passengers are onboard",20],["Make sure everyone is safely seated",20],["Give the thumbs up to depart",15],["Clear belongings at arrival",10],["Announce when clear to depart again",10]]},{"q":"Name something you need to report or document on the OP Sheet.","answers":[["Cast Members' sign-ins and attendance",30],["Roles being performed",25],["Shift alterations/updates",20],["Notes on late/no-shows",15],["Changes in performing roster",10]]},{"q":"Name something monitored during a performer conditioning session.","answers":[["Participation of scheduled performers",20],["Start/end time & session length",18],["Correct attire/Disney Look compliance",16],["Appropriate and safe music",14],["Minimal side conversations/talking",12],["Noise levels",10],["No personal electronic device use",6],["Clean-up after session",4]],"note":"Additional source answer: Reporting of injuries or no-shows."},{"q":"Name a situation where you should initiate a Drive Stop on a float.","answers":[["Child or Guest runs onto parade route",1],["Safety hazard on or around the float",1],["Cast Member is injured",1],["Fire or electrical malfunction",1],["Float needs to stop quickly for safety",1]],"sourcePoints":true}];
 let questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));
 let state=JSON.parse(localStorage.getItem("plsState")||'{"round":0,"revealed":[],"a":0,"b":0,"strikes":0,"mult":1}');
 const bc=("BroadcastChannel" in window)?new BroadcastChannel("parade-lead-showdown"):null;
 if(bc)bc.onmessage=e=>{if(e.data==="sync"){load();render();}};
 window.addEventListener("storage",e=>{if(e.key==="plsState"||e.key==="plsQuestions"){load();render();}});
-function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync")}
+function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud()}
 function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));state=JSON.parse(localStorage.getItem("plsState")||JSON.stringify(state))}
 function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");render()}
 function bank(){return questions[state.round].answers.reduce((s,a,i)=>s+(state.revealed.includes(i)?a[1]:0),0)*state.mult}
@@ -21,4 +59,4 @@ function exportGame(){let b=new Blob([JSON.stringify(questions,null,2)],{type:"a
 function resetAll(){if(confirm("Reset questions and scores to the original training set?")){questions=JSON.parse(JSON.stringify(DEFAULT_GAME));state={round:0,revealed:[],a:0,b:0,strikes:0,mult:1};save();render()}}
 function openAudience(){let u=new URL(location.href);u.searchParams.set("audience","1");window.open(u.toString(),"audience","width=1400,height=850")}
 document.addEventListener("keydown",e=>{if(e.target.matches("input,textarea"))return;if("12345678".includes(e.key))reveal(+e.key-1);if(e.key.toLowerCase()==="x")strike();if(e.key==="ArrowRight")nav(1);if(e.key==="ArrowLeft")nav(-1);if(e.key.toLowerCase()==="a")award("a");if(e.key.toLowerCase()==="b")award("b");if(e.key.toLowerCase()==="f")document.documentElement.requestFullscreen?.()});
-if(new URLSearchParams(location.search).has("audience")){document.body.classList.add("audience");show("game")}else render();
+if(new URLSearchParams(location.search).has("audience")){document.body.classList.add("audience");show("game")}else render(); pullCloud(); setInterval(pollCloud,700);
