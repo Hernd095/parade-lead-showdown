@@ -100,6 +100,13 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 
 /* Parade Lead Showdown welcome screen */
 .welcomeBoard{min-height:82vh;display:grid;place-items:center;text-align:center;padding:4vw;background:radial-gradient(circle at 50% 42%,#174eac 0,#071c51 42%,#020817 76%);border:3px solid #e9b52e;border-radius:24px;box-shadow:inset 0 0 80px #006cff55,0 0 35px #e9b52e44;overflow:hidden}
-.welcomeLogo{position:relative;padding:clamp(28px,5vw,70px) clamp(35px,8vw,120px);border:clamp(4px,.6vw,9px) solid #f6c84c;border-radius:50%;background:radial-gradient(ellipse,#1553b8 0,#08275f 60%,#041334 100%);box-shadow:0 0 0 8px #081c48,0 0 0 13px #f6c84c,0 0 55px #ffc72c88,inset 0 0 45px #3c8dff66;transform:rotate(-1deg)}
+.welcomeLogo{position:relative;padding:clamp(28px,5vw,70px) clamp(35px,8vw,120px);border:clamp(4px,.6vw,9px) solid #f6c84c;border-radius:50%;background:radial-gradient(ellipse,#1553b8 0,#08275f 60%,#041334 100%);box-shadow:0 0 0 8px #081c48,0 0 0 13px #f6c84c,0 0 55px #ffc72c88,inset 0 0 45px #3c8dff66;transform:none}
 .welcomeLogo span,.welcomeLogo strong,.welcomeLogo small{display:block}.welcomeLogo span{font-family:"Archivo Black";font-size:clamp(28px,5.5vw,82px);letter-spacing:.08em;color:#fff;text-shadow:0 4px 0 #0a2b68,0 0 18px #5ca5ff}.welcomeLogo strong{font-family:"Archivo Black";font-size:clamp(40px,8vw,122px);line-height:.9;color:#ffd14a;text-shadow:0 5px 0 #9b5700,0 0 22px #ffbd19;letter-spacing:.02em}.welcomeLogo small{margin-top:clamp(16px,2vw,28px);font-weight:900;letter-spacing:.35em;color:#dce9ff;font-size:clamp(12px,1.4vw,20px)}
 #host .startGameBtn{background:linear-gradient(#ffe374,#e7a918);color:#071a40;border-color:#fff0a3;font-weight:900}
+
+/* Classic marquee bulbs behind welcome logo */
+.welcomeBoard{position:relative}
+.welcomeBoard:before{content:"";position:absolute;inset:clamp(18px,2.8vw,42px);border-radius:30px;pointer-events:none;background:radial-gradient(circle,#fff7bd 0 22%,#ffd24a 24% 39%,#ff9d00 42% 53%,transparent 57%) 0 0/54px 54px;filter:drop-shadow(0 0 7px #ffc21c);opacity:.98;animation:marqueeGlow 1.15s ease-in-out infinite alternate}
+.welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
+.welcomeLogo{z-index:2}
+@keyframes marqueeGlow{from{filter:drop-shadow(0 0 5px #ffc21c);opacity:.84}to{filter:drop-shadow(0 0 12px #fff0a0);opacity:1}}
