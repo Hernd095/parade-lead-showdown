@@ -213,3 +213,33 @@ body.audience .feudBoard{position:absolute;inset:0;width:1600px;height:900px;min
 body.audience .feudBoard .answers{width:1000px;max-width:1000px;grid-template-columns:493px 493px;grid-template-rows:repeat(4,92px);min-height:404px}
 body.audience .feudBoard .answer,body.audience .feudBoard .answer.covered{width:493px;height:92px;min-height:92px}
 body.audience .feudBoard .answer.covered .num{width:64px;height:64px;font-size:36px}
+
+/* Covered tiles must use the exact same box geometry as revealed tiles */
+body.audience .feudBoard .answer,
+body.audience .feudBoard .answer.covered{
+  display:grid !important;
+  width:493px !important;
+  height:92px !important;
+  min-width:493px !important;
+  min-height:92px !important;
+  max-width:493px !important;
+  max-height:92px !important;
+  box-sizing:border-box !important;
+  grid-template-columns:1fr 74px !important;
+  grid-template-rows:1fr !important;
+}
+body.audience .feudBoard .answer.covered{
+  position:relative !important;
+}
+body.audience .feudBoard .answer.covered .num{
+  display:grid !important;
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%,-50%) !important;
+  width:64px !important;
+  height:64px !important;
+  margin:0 !important;
+}
+body.audience .feudBoard .answer.covered .txt,
+body.audience .feudBoard .answer.covered .pts{visibility:hidden !important;display:block !important}
