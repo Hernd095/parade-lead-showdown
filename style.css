@@ -46,3 +46,46 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .strikeTeam strong{color:#ff2d36;font-size:22px}.strikeTeam button{grid-column:1/-1}.hostConsole button{font-weight:800}
 @media(max-width:1050px){.hostGrid{grid-template-columns:1fr}.previewCard .hostPreview{height:390px}}
 @media(max-width:700px){.hostTopbar{align-items:flex-start;flex-direction:column}.navCard,.teamControlGrid,.bankControl,.awardBtns{grid-template-columns:1fr}.hostAnswers button{grid-template-columns:30px minmax(0,1fr) 45px}.hostAnswers button small{display:none}}
+
+/* Host console v2: compact, aligned, one-screen desktop layout */
+#host{max-width:1500px;margin:0 auto}
+#host .hostConsole{width:100%;font-size:14px}
+#host .hostTopbar{min-height:54px;padding:10px 14px;margin-bottom:12px}
+#host .hostGrid{grid-template-columns:minmax(560px,1.18fr) minmax(430px,.82fr);gap:12px}
+#host .hostLeft,#host .hostRight{gap:12px}
+#host .consoleCard{padding:12px;border-radius:13px}
+#host .previewCard{padding:12px}
+#host .previewCard .hostPreview{height:315px;margin-top:8px}
+#host .hostPreview .board{width:200%;transform:scale(.5);padding:18px}
+#host .hostPreview .question{font-size:28px;margin:10px 0 14px}
+#host .hostPreview .answer{min-height:52px;font-size:17px}
+#host .hostPreview .answer .num,#host .hostPreview .answer .pts{font-size:18px}
+#host .hostPreview .scores{margin-top:10px}
+#host .hostPreview .score b,#host .hostPreview .bank b{font-size:27px}
+#host .navCard{padding:9px;grid-template-columns:72px minmax(180px,1fr) 72px 105px 105px}
+#host .navCard button,#host .navCard select{height:40px;padding:7px 9px}
+#host .teamControlGrid{gap:12px}
+#host .teamControl{padding:11px}
+#host .teamRow input{height:39px;padding:8px}
+#host .bigScore{font-size:30px;padding:7px}
+#host .scoreBtns button{padding:8px 5px}
+#host .answerControl{padding:13px}
+#host .answerControl h2{font-size:19px;line-height:1.25;margin:5px 0 10px}
+#host .hostAnswers{gap:5px}
+#host .hostAnswers button{min-height:43px;padding:5px 8px;grid-template-columns:30px minmax(0,1fr) 42px 58px;gap:7px}
+#host .hostAnswers button b{padding:5px}
+#host .hostAnswers button strong{font-size:17px}
+#host .hostAnswers button small{font-size:10px}
+#host .miniActions{margin-top:8px}
+#host .miniActions button{padding:7px 10px}
+#host .bankControl{padding:12px;gap:9px}
+#host .bankNumber{font-size:42px}
+#host .scoreBtns button{min-height:38px}
+#host .awardBtns button{min-height:43px;padding:8px}
+#host .strikeControl{padding:11px}
+#host .strikeHead button{padding:7px 10px}
+#host .strikeTeam{margin-top:7px;padding:8px;grid-template-columns:minmax(0,1fr) auto 120px}
+#host .strikeTeam button{grid-column:auto;padding:8px}
+#host .hostTopActions button{padding:8px 11px}
+@media(max-width:1150px){#host .hostGrid{grid-template-columns:1fr}#host .previewCard .hostPreview{height:360px}#host .hostPreview .board{width:166.666%;transform:scale(.6)}}
+@media(max-width:760px){#host .navCard{grid-template-columns:1fr 1fr}#host .navCard select{grid-column:1/-1}#host .teamControlGrid{grid-template-columns:1fr}#host .strikeTeam{grid-template-columns:1fr auto}#host .strikeTeam button{grid-column:1/-1}}
