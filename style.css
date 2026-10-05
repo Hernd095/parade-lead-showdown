@@ -243,3 +243,28 @@ body.audience .feudBoard .answer.covered .num{
 }
 body.audience .feudBoard .answer.covered .txt,
 body.audience .feudBoard .answer.covered .pts{visibility:hidden !important;display:block !important}
+
+/* Keep all answer tiles fully contained inside the center display frame */
+body.audience .feudBoard .answers{
+  width:980px !important;
+  max-width:980px !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  column-gap:14px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+body.audience .feudBoard .answer,
+body.audience .feudBoard .answer.covered{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+}
+#host .hostPreview .feudBoard .answers{
+  width:980px;
+  max-width:980px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  box-sizing:border-box;
+  overflow:hidden;
+}
+#host .hostPreview .feudBoard .answer,
+#host .hostPreview .feudBoard .answer.covered{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
