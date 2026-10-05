@@ -388,3 +388,23 @@ body.audience .boardStrikes:empty{
   box-shadow:0 0 0 3px #750000,0 0 18px #ff2424,inset 0 0 20px #790000;
 }
 #host .hostPreview .boardStrikes:empty{padding:0;border:0;background:transparent;box-shadow:none}
+
+/* Dynamic answer-frame sizing approved mockup */
+body.audience .feudBoard .answers{height:auto!important;min-height:0!important;grid-auto-flow:row!important;align-content:start}
+body.audience .feudBoard .answers.answerCount8{width:1000px!important;grid-template-columns:482px 482px!important;grid-template-rows:repeat(4,92px)!important}
+body.audience .feudBoard .answers.answerCount7{width:1000px!important;grid-template-columns:482px 482px!important;grid-template-rows:repeat(4,92px)!important}
+body.audience .feudBoard .answers.answerCount6{width:1000px!important;grid-template-columns:482px 482px!important;grid-template-rows:repeat(3,92px)!important}
+body.audience .feudBoard .answers.answerCount5{width:1000px!important;grid-template-columns:482px 482px!important;grid-template-rows:repeat(3,92px)!important}
+body.audience .feudBoard .answers.answerCount4{width:1000px!important;grid-template-columns:482px 482px!important;grid-template-rows:repeat(2,92px)!important}
+body.audience .feudBoard .answers.answerCount3,
+body.audience .feudBoard .answers.answerCount2,
+body.audience .feudBoard .answers.answerCount1{width:510px!important;grid-template-columns:482px!important;grid-template-rows:repeat(var(--rows,3),92px)!important}
+body.audience .feudBoard .answers.answerCount2{grid-template-rows:repeat(2,92px)!important}
+body.audience .feudBoard .answers.answerCount1{grid-template-rows:92px!important}
+body.audience .feudBoard .answers.answerCount5 .answer:last-child,
+body.audience .feudBoard .answers.answerCount7 .answer:last-child{grid-column:1 / -1;width:482px!important;justify-self:center!important}
+#host .hostPreview .answers.answerCount6{grid-template-rows:repeat(3,92px);min-height:0}
+#host .hostPreview .answers.answerCount5{grid-template-rows:repeat(3,92px);min-height:0}
+#host .hostPreview .answers.answerCount4{grid-template-rows:repeat(2,92px);min-height:0}
+#host .hostPreview .answers.answerCount3,#host .hostPreview .answers.answerCount2,#host .hostPreview .answers.answerCount1{width:510px;grid-template-columns:482px;min-height:0}
+#host .hostPreview .answers.answerCount5 .answer:last-child,#host .hostPreview .answers.answerCount7 .answer:last-child{grid-column:1/-1;justify-self:center}
