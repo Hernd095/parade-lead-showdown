@@ -101,13 +101,13 @@ function winningSound(){playClip(SOUND_WIN)}
 function playWinningMusic(){state.winFlash=Date.now();lastWinFlash=state.winFlash;winningSound();save();render()}
 function tone(freq,dur){try{let A=audio(),o=A.createOscillator(),g=A.createGain();o.frequency.value=freq;o.connect(g);g.connect(A.destination);g.gain.setValueAtTime(.1,A.currentTime);g.gain.exponentialRampToValueAtTime(.001,A.currentTime+dur);o.start();o.stop(A.currentTime+dur)}catch(e){}}
 function setTeamName(team,value){if(team==="A")state.teamA=value;else state.teamB=value;localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud();document.querySelectorAll(".score").forEach((el,i)=>{const name=i%2===0?(state.teamA||"TEAM A"):(state.teamB||"TEAM B");el.childNodes[0].nodeValue=name;});}
-function board(){let q=questions[state.round];state.teamA=state.teamA||"TEAM A";state.teamB=state.teamB||"TEAM B";return `<div class="board"><div class="question">${q.q}</div><div class="answers">${q.answers.map((a,i)=>`<div class="answer ${state.revealed.includes(i)?"":"covered"}"><div class="num">${i+1}</div><div class="txt">${a[0]}</div><div class="pts">${a[1]}</div></div>`).join("")}</div><div class="scores"><div class="score">${state.teamA}<b>${state.a}</b></div><div class="bank">BANK<b>${bank()}</b><div>${"✕".repeat(state.strikes)}</div></div><div class="score">${state.teamB}<b>${state.b}</b></div></div></div>`}
+function board(){if(state.welcome!==false)return `<div class="welcomeBoard"><div class="welcomeLogo"><span>PARADE LEAD</span><strong>SHOWDOWN</strong><small>GET READY TO PLAY!</small></div></div>`;let q=questions[state.round];state.teamA=state.teamA||"TEAM A";state.teamB=state.teamB||"TEAM B";return `<div class="board"><div class="question">${q.q}</div><div class="answers">${q.answers.map((a,i)=>`<div class="answer ${state.revealed.includes(i)?"":"covered"}"><div class="num">${i+1}</div><div class="txt">${a[0]}</div><div class="pts">${a[1]}</div></div>`).join("")}</div><div class="scores"><div class="score">${state.teamA}<b>${state.a}</b></div><div class="bank">BANK<b>${bank()}</b><div>${"✕".repeat(state.strikes)}</div></div><div class="score">${state.teamB}<b>${state.b}</b></div></div></div>`}
 function render(){
   document.getElementById("game").innerHTML=board();
   let q=questions[state.round], teamA=state.teamA||"TEAM A", teamB=state.teamB||"TEAM B";
   document.getElementById("host").innerHTML=`
   <div class="hostConsole">
-    <div class="hostTopbar"><div><b>PARADE LEAD <span>SHOWDOWN</span></b><small>HOST CONSOLE</small></div><div class="hostTopActions"><button onclick="openAudience()">Open Audience Board</button><button onclick="show('editor')">Edit Questions</button></div></div>
+    <div class="hostTopbar"><div><b>PARADE LEAD <span>SHOWDOWN</span></b><small>HOST CONSOLE</small></div><div class="hostTopActions"><button class="startGameBtn" onclick="showFirstQuestion()">▶ Show First Question</button><button onclick="showWelcome()">★ Welcome Screen</button><button onclick="openAudience()">Open Audience Board</button><button onclick="show('editor')">Edit Questions</button></div></div>
     <div class="hostGrid">
       <div class="hostLeft">
         <div class="consoleCard previewCard"><div class="consoleLabel">LIVE BOARD PREVIEW</div><div class="hostPreview">${board()}</div></div>
@@ -126,6 +126,8 @@ function render(){
   </div>`;
   document.getElementById("editor").innerHTML=`<div class="panel"><h2>Question Editor</h2><label>Round</label><select onchange="state.round=+this.value;save();render()">${questions.map((x,i)=>`<option value="${i}" ${i===state.round?"selected":""}>${i+1}. ${x.q}</option>`).join("")}</select><label>Question</label><textarea id="eq">${q.q}</textarea><h3>Answers</h3>${q.answers.map((x,i)=>`<div class="editAns"><input id="ea${i}" value="${x[0].replaceAll('"','&quot;')}"><input id="ep${i}" type="number" value="${x[1]}"><button class="danger" onclick="delAns(${i})">×</button></div>`).join("")}<div class="controls"><button onclick="addAns()">+ Answer</button><button onclick="saveEdit()">Save Changes</button><button onclick="exportGame()">Export JSON</button><button class="danger" onclick="resetAll()">Reset Default</button></div></div>`;
 }
+function showFirstQuestion(){state.welcome=false;state.round=0;state.revealed=[];state.strikes=0;state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound();save();render()}
+function showWelcome(){state.welcome=true;state.revealed=[];state.strikes=0;save();render()}
 function resetRound(){state.revealed=[];state.strikes=0;state.mult=1;save();render()}
 function revealAll(){state.revealed=questions[state.round].answers.map((_,i)=>i);save();render()}
 function hideAll(){state.revealed=[];save();render()}
@@ -133,8 +135,8 @@ function adjustScore(team,amount){state[team]=Math.max(0,(state[team]||0)+amount
 function saveEdit(){let q=questions[state.round];q.q=document.getElementById("eq").value;q.answers=q.answers.map((a,i)=>[document.getElementById("ea"+i).value,+document.getElementById("ep"+i).value]);save();render()}
 function addAns(){questions[state.round].answers.push(["New Answer",0]);save();render()}function delAns(i){questions[state.round].answers.splice(i,1);save();render()}
 function exportGame(){let b=new Blob([JSON.stringify(questions,null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="parade-lead-showdown-questions.json";a.click();URL.revokeObjectURL(u)}
-function resetBoard(){if(confirm("Reset the board? This will clear scores, revealed answers, strikes, multiplier, team names, and return to Round 1.")){state={round:0,revealed:[],a:0,b:0,strikes:0,mult:1,teamA:"TEAM A",teamB:"TEAM B"};save();render()}}
-function resetAll(){if(confirm("Reset questions and scores to the original training set?")){questions=JSON.parse(JSON.stringify(DEFAULT_GAME));state={round:0,revealed:[],a:0,b:0,strikes:0,mult:1};save();render()}}
+function resetBoard(){if(confirm("Reset the board? This will clear scores, revealed answers, strikes, multiplier, team names, and return to Round 1.")){state={round:0,revealed:[],a:0,b:0,strikes:0,mult:1,teamA:"TEAM A",teamB:"TEAM B",welcome:true};save();render()}}
+function resetAll(){if(confirm("Reset questions and scores to the original training set?")){questions=JSON.parse(JSON.stringify(DEFAULT_GAME));state={round:0,revealed:[],a:0,b:0,strikes:0,mult:1,welcome:true};save();render()}}
 function openAudience(){let u=new URL(location.href);u.searchParams.set("audience","1");window.open(u.toString(),"audience","width=1400,height=850")}
 document.addEventListener("keydown",e=>{if(e.target.matches("input,textarea"))return;if("12345678".includes(e.key))reveal(+e.key-1);if(e.key.toLowerCase()==="x")strike();if(e.key==="ArrowRight")nav(1);if(e.key==="ArrowLeft")nav(-1);if(e.key.toLowerCase()==="a")award("a");if(e.key.toLowerCase()==="b")award("b");if(e.key.toLowerCase()==="f")document.documentElement.requestFullscreen?.()});
 if(new URLSearchParams(location.search).has("audience")){document.body.classList.add("audience");show("game")}else render(); pullCloud(); setInterval(pollCloud,700);
