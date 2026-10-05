@@ -147,3 +147,30 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .covered .txt,.covered .pts{visibility:hidden}
 .scores{margin-top:20px}
 @media(max-width:760px){.answer,.answer.covered{height:68px;min-height:68px}.answer .num,.answer.covered .num{height:44px;width:44px;font-size:24px}}
+
+/* Approved mockup: classic game-show answer board */
+.feudBoard{position:relative;min-height:82vh;padding:170px 18% 90px;border:0;border-radius:0;background:radial-gradient(ellipse at center,#3a2428 0,#20151c 58%,#0b101d 100%);box-shadow:none;overflow:hidden}
+.feudBoard:before{content:"";display:block;position:absolute;inset:-8% -3% 2%;border:16px solid #ff9d00;border-radius:50%;box-shadow:0 0 0 7px #34252c,0 0 0 12px #ffbf24,inset 0 0 30px #ff8a00;pointer-events:none;z-index:1}
+.boardLightWall{position:absolute;inset:25px 5% 35px;z-index:0;display:grid;grid-template-columns:repeat(24,1fr);grid-template-rows:repeat(10,1fr);align-items:center;justify-items:center}
+.boardLightWall i{width:11px;height:11px;border-radius:50%;background:#ffd65b;opacity:.62;box-shadow:0 0 5px #ffb522;animation:boardGlow var(--t) ease-in-out infinite;animation-delay:var(--d)}
+@keyframes boardGlow{0%,100%{opacity:.42;filter:brightness(.72)}38%{opacity:.7;filter:brightness(1)}53%{opacity:1;filter:brightness(1.7);background:#fff7bb;box-shadow:0 0 8px #fff4b2,0 0 17px #ffc42d}72%{opacity:.6;filter:brightness(.9)}}
+.feudBoard .answers{position:relative;z-index:3;margin:0 auto;max-width:1000px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;background:#070707;border:4px solid #d7d7d7;border-radius:3px;box-shadow:0 0 0 7px #111,0 0 0 12px #ffad09,0 0 0 17px #3d1e13,0 8px 25px #000c}
+.feudBoard .answer,.feudBoard .answer.covered{height:92px;min-height:92px;border:4px solid #e3e3e3;border-radius:1px;background:linear-gradient(180deg,#5ca9f3 0,#2b82dc 35%,#0d54bb 58%,#07357f 100%);box-shadow:inset 0 0 0 3px #081a43,inset 0 4px 10px #d8eeff88,0 0 0 2px #050505;grid-template-columns:1fr 74px}
+.feudBoard .answer .num{display:none}
+.feudBoard .answer .txt{display:block;padding:0 14px;text-align:center;font-family:"Archivo Black";font-size:clamp(16px,1.7vw,27px);color:#fff;text-shadow:2px 3px 0 #07183d}
+.feudBoard .answer .pts{display:grid;height:100%;place-items:center;border-left:3px solid #e0e0e0;background:linear-gradient(180deg,#2373cf,#073b8e);font-family:"Archivo Black";font-size:30px;color:#fff;text-shadow:2px 3px 0 #071333}
+.feudBoard .answer.covered{display:grid;grid-template-columns:1fr}
+.feudBoard .answer.covered .txt,.feudBoard .answer.covered .pts{display:none}
+.feudBoard .answer.covered .num{display:grid;position:static;inset:auto;width:64px;height:64px;justify-self:center;align-self:center;place-items:center;border:3px solid #84aaf0;border-radius:50%;background:radial-gradient(circle at 45% 35%,#236bd8,#092c88 62%,#06194e);font-family:"Archivo Black";font-size:36px;color:#fff;text-shadow:2px 3px 0 #02091f;box-shadow:inset 0 0 9px #78acff99,0 3px 6px #000}
+.topBank,.sideScore{position:absolute;z-index:4;display:grid;place-items:center;background:linear-gradient(180deg,#2587ee,#0751c8 58%,#073483);border:9px solid #2b242a;box-shadow:0 0 0 3px #77717a,0 6px 13px #000a;color:#fff;text-align:center}
+.topBank{top:24px;left:50%;transform:translateX(-50%);width:230px;height:125px;font-family:"Archivo Black";font-size:76px;text-shadow:3px 4px 0 #17397e}
+.sideScore{top:48%;transform:translateY(-50%);width:145px;height:120px}
+.sideA{left:2%}.sideB{right:2%}
+.sideScore small{align-self:end;font-weight:900;font-size:13px;max-width:125px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sideScore b{align-self:start;font-family:"Archivo Black";font-size:55px;line-height:1;text-shadow:3px 4px 0 #17397e}
+.boardStrikes{position:absolute;z-index:4;left:50%;bottom:25px;transform:translateX(-50%);min-height:40px;color:#ff3636;font-family:"Archivo Black";font-size:42px;letter-spacing:12px;text-shadow:0 0 12px red}
+#host .hostPreview>.feudBoard{padding:170px 18% 90px}
+#host .hostPreview .topBank{font-size:76px}
+#host .hostPreview .sideScore b{font-size:55px}
+#host .hostPreview .feudBoard .answer,#host .hostPreview .feudBoard .answer.covered{height:92px;min-height:92px}
+@media(max-width:760px){.feudBoard{padding:125px 15% 70px}.topBank{width:150px;height:90px;font-size:52px}.sideScore{width:90px;height:90px}.sideScore b{font-size:38px}.sideScore small{font-size:9px}.feudBoard .answer,.feudBoard .answer.covered{height:68px;min-height:68px}.feudBoard .answer.covered .num{width:46px;height:46px;font-size:26px}}
