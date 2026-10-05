@@ -268,3 +268,25 @@ body.audience .feudBoard .answer.covered{
 }
 #host .hostPreview .feudBoard .answer,
 #host .hostPreview .feudBoard .answer.covered{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+
+/* Hard containment fix: account for frame padding/borders in the 980px display */
+body.audience .feudBoard .answers{
+  width:980px !important;
+  max-width:980px !important;
+  padding:10px !important;
+  border-width:4px !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:12px 14px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+body.audience .feudBoard .answer,
+body.audience .feudBoard .answer.covered{
+  width:auto !important;
+  min-width:0 !important;
+  max-width:none !important;
+  height:92px !important;
+  min-height:92px !important;
+  box-sizing:border-box !important;
+  justify-self:stretch !important;
+}
