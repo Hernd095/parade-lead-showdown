@@ -436,3 +436,12 @@ body.buzzerMode #editor,
 body.buzzerMode .hostConsole{display:none!important}
 body.buzzerMode #game{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;max-width:none!important;z-index:9999!important}
 body.buzzerMode .buzzerPage{position:absolute;inset:0;width:100%;height:100%;margin:0}
+
+.buzzerSetup{grid-column:1/-1;text-align:center}
+.buzzerSetupNote{margin:3px 0 12px;color:#aebbd0;font-size:13px}
+.buzzerSetupGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
+.buzzerSetupGrid>div{padding:12px;border:1px solid #34445e;border-radius:12px;background:#0b1526}
+.buzzerSetupGrid strong{display:block;margin-bottom:8px;font-family:"Archivo Black";font-size:16px}
+.qrBox{width:150px;height:150px;margin:0 auto 10px;padding:7px;border-radius:9px;background:white;box-sizing:border-box}
+.qrBox img{display:block;width:100%;height:100%}
+.buzzerSetup>.buzzerResetBtn{width:100%;padding:12px}
