@@ -110,23 +110,15 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
 .welcomeLogo{z-index:2}
 @keyframes marqueeGlow{from{filter:drop-shadow(0 0 5px #ffc21c);opacity:.84}to{filter:drop-shadow(0 0 12px #fff0a0);opacity:1}}
-.marqueeBulbs{position:absolute;inset:12px;z-index:1;pointer-events:none}
-.marqueeBulbs i{position:absolute;width:15px;height:15px;border-radius:50%;background:#ffd24a;box-shadow:0 0 5px #ffae00,0 0 11px #ffae0066;animation:bulbChase 2.7s linear infinite;animation-delay:calc(var(--i)*-.05s);will-change:opacity,transform,filter,box-shadow}
-.marqueeBulbs i:nth-child(-n+16){top:0;left:calc((var(--i) - 1)*6.55%)}
-.marqueeBulbs i:nth-child(n+17):nth-child(-n+27){right:0;top:calc((var(--i) - 17)*9.9%)}
-.marqueeBulbs i:nth-child(n+28):nth-child(-n+43){bottom:0;right:calc((var(--i) - 28)*6.55%)}
-.marqueeBulbs i:nth-child(n+44){left:0;bottom:calc((var(--i) - 44)*9.9%)}
-@keyframes bulbChase{
-0%,100%{opacity:.35;transform:scale(.78);filter:brightness(.72);box-shadow:0 0 3px #ffae00}
-12%{opacity:.58;transform:scale(.9);filter:brightness(.95);box-shadow:0 0 6px #ffae00,0 0 11px #ffae0066}
-24%{opacity:1;transform:scale(1.32);filter:brightness(1.55);background:#fffbd8;box-shadow:0 0 9px #fff,0 0 19px #ffe45c,0 0 31px #ffad00}
-38%{opacity:.72;transform:scale(1.02);filter:brightness(1.12);background:#ffe36b;box-shadow:0 0 7px #ffd43b,0 0 15px #ffae00}
-58%{opacity:.42;transform:scale(.82);filter:brightness(.8);background:#ffd24a;box-shadow:0 0 4px #ffae00}
-}
-.welcomeBoard{background:
-radial-gradient(circle at 50% 42%,#174eac 0,#071c51 40%,#020817 72%),
-radial-gradient(circle,#ffd24a 0 3px,transparent 4px) 0 0/32px 32px}
-.welcomeBoard:after{inset:38px;border-radius:38%;background:#03102fda;box-shadow:0 0 45px #00102c}
+.marqueeBulbs{position:absolute;inset:24px;z-index:1;pointer-events:none}
+.marqueeBulbs i{position:absolute;width:18px;height:18px;border-radius:50%;background:#ffd24a;box-shadow:0 0 7px #ffae00,0 0 15px #ffae0066;animation:bulbChase 3s ease-in-out infinite;animation-delay:calc(var(--i)*-.055s);will-change:opacity,transform,filter}
+.marqueeBulbs i:nth-child(-n+16){top:0;left:calc((var(--i) - 1)*6.5%)}
+.marqueeBulbs i:nth-child(n+17):nth-child(-n+27){right:0;top:calc((var(--i) - 17)*9.6%)}
+.marqueeBulbs i:nth-child(n+28):nth-child(-n+43){bottom:0;right:calc((var(--i) - 28)*6.5%)}
+.marqueeBulbs i:nth-child(n+44){left:0;bottom:calc((var(--i) - 44)*9.6%)}
+@keyframes bulbChase{0%,100%{opacity:.48;transform:scale(.88);filter:brightness(.78)}18%{opacity:.7;transform:scale(1);filter:brightness(1)}30%{opacity:1;transform:scale(1.28);filter:brightness(1.55);background:#fff8c9;box-shadow:0 0 10px #fff,0 0 24px #ffd43b,0 0 36px #ff9d00}48%{opacity:.72;transform:scale(1);filter:brightness(1.05);background:#ffd24a}70%{opacity:.5;transform:scale(.9);filter:brightness(.82)}}
+.welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
+.welcomeLogo{z-index:2}
 
 /* Live Display mirrors the complete Audience Board at a fixed 16:9 scale */
 #host .previewCard{overflow:hidden}
@@ -143,9 +135,3 @@ radial-gradient(circle,#ffd24a 0 3px,transparent 4px) 0 0/32px 32px}
 #host .hostPreview .welcomeLogo strong{font-size:108px}
 #host .hostPreview .welcomeLogo small{font-size:17px}
 
-/* Dense animated light field across welcome background */
-.lightField{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.lightField i{position:absolute;left:var(--x);top:var(--y);width:10px;height:10px;border-radius:50%;background:#ffc936;opacity:.24;box-shadow:0 0 4px #ffb000;animation:fieldChase 3.8s ease-in-out infinite;animation-delay:calc(var(--i)*-.037s);will-change:opacity,transform,filter}
-@keyframes fieldChase{0%,100%{opacity:.18;transform:scale(.7);filter:brightness(.65)}18%{opacity:.4;transform:scale(.9);filter:brightness(.9)}32%{opacity:1;transform:scale(1.45);filter:brightness(1.7);background:#fff8bd;box-shadow:0 0 8px #fff4aa,0 0 19px #ffc928}48%{opacity:.48;transform:scale(1);filter:brightness(1)}70%{opacity:.22;transform:scale(.75);filter:brightness(.72)}}
-.welcomeLogo{z-index:3}
-.welcomeBoard:after{z-index:2;background:#03102fa8}
