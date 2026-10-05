@@ -425,3 +425,14 @@ body.audience .feudBoard .answers.answerCount7 .answer:last-child{grid-column:1 
 .buzzWinnerBanner{position:absolute;z-index:8;left:50%;bottom:18px;transform:translateX(-50%);min-width:420px;padding:10px 35px;border:5px solid #ffb30e;border-radius:16px;background:linear-gradient(#126fd2,#073e99);box-shadow:0 0 25px #ffba24;color:#fff;text-align:center;font-family:"Archivo Black";font-size:28px;text-transform:uppercase}
 .buzzWinnerBanner small{display:block;color:#ffe642;font-size:17px;letter-spacing:.08em}
 .buzzerResetBtn{background:#1474d4!important;color:white!important}
+
+/* Dedicated buzzer pages: hide all site chrome/controls, show only team + buzzer */
+body.buzzerMode header,
+body.buzzerMode nav,
+body.buzzerMode .topbar,
+body.buzzerMode .siteHeader,
+body.buzzerMode #host,
+body.buzzerMode #editor,
+body.buzzerMode .hostConsole{display:none!important}
+body.buzzerMode #game{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;max-width:none!important;z-index:9999!important}
+body.buzzerMode .buzzerPage{position:absolute;inset:0;width:100%;height:100%;margin:0}
