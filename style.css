@@ -91,3 +91,9 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 @media(max-width:760px){#host .navCard{grid-template-columns:1fr 1fr}#host .navCard select{grid-column:1/-1}#host .teamControlGrid{grid-template-columns:1fr}#host .strikeTeam{grid-template-columns:1fr auto}#host .strikeTeam button{grid-column:1/-1}}
 
 #host .winMusicBtn{grid-column:1/-1;background:linear-gradient(#fff0a6,#f5b51b);color:#06112b;border-color:#ffe17a;font-weight:900}
+
+/* Keep covered and revealed answer tiles identical in size */
+.answer,.answer.covered{height:78px;min-height:78px;box-sizing:border-box}
+.audience .answer,.audience .answer.covered{height:9vh;min-height:9vh}
+.hostPreview .answer,.hostPreview .answer.covered,#host .hostPreview .answer,#host .hostPreview .answer.covered{height:52px;min-height:52px}
+@media(max-width:760px){.answer,.answer.covered{height:65px;min-height:65px}.audience .answer,.audience .answer.covered{height:9vh;min-height:9vh}}
