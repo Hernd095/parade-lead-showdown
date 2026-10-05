@@ -55,8 +55,8 @@ const DEFAULT_GAME=[{"q":"What's in the comfort kit?","answers":[["Bandages",30]
 let questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));
 let state=JSON.parse(localStorage.getItem("plsState")||'{"round":0,"revealed":[],"a":0,"b":0,"strikes":0,"mult":1,"teamA":"TEAM A","teamB":"TEAM B"}');
 const bc=("BroadcastChannel" in window)?new BroadcastChannel("parade-lead-showdown"):null;
-if(bc)bc.onmessage=e=>{if(e.data==="sync"){load();render();}};
-window.addEventListener("storage",e=>{if(e.key==="plsState"||e.key==="plsQuestions"){load();render();}});
+if(bc)bc.onmessage=e=>{if(e.data==="sync"){load();render();if(isAudience()){if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}}}};
+window.addEventListener("storage",e=>{if(e.key==="plsState"||e.key==="plsQuestions"){load();render();if(isAudience()){if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}}}});
 function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud()}
 function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));state=JSON.parse(localStorage.getItem("plsState")||JSON.stringify(state))}
 function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");render()}
