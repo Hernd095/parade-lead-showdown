@@ -47,7 +47,7 @@ async function pollCloud(){
         if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}
         if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}
         if(state.winFlash&&state.winFlash!==lastWinFlash){lastWinFlash=state.winFlash;winningSound()}
-        if(isAudience()&&state.buzzWinner&&state.buzzAt&&state.buzzAt!==lastBuzzAt){lastBuzzAt=state.buzzAt;playClip(SOUND_BUZZ_IN)}
+        if(isAudience()&&state.buzzWinner&&state.buzzAt&&state.buzzAt!==lastBuzzAt){lastBuzzAt=state.buzzAt;buzzInSound()}
         applyingRemote=false;
       }
     }
@@ -87,8 +87,8 @@ function primeSounds(){
     const p=a.play();if(p&&p.then)p.then(()=>{a.pause();a.currentTime=0;a.muted=false}).catch(()=>{a.muted=false});
   });
 }
-function playClip(src){
-  if(!isAudience())return;
+function playClip(src,force=false){
+  if(!isAudience()&&!force)return;
   try{
     if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
     const a=soundPlayers[src];a.pause();a.currentTime=0;a.muted=false;a.volume=1;
@@ -100,6 +100,7 @@ function answerSound(){playClip(SOUND_REVEAL)}
 function buzzerSound(){if(!playInstant(SOUND_BUZZER))playClip(SOUND_BUZZER)}
 function nextQuestionSound(){playClip(SOUND_NEXT)}
 function winningSound(){playClip(SOUND_WIN)}
+function buzzInSound(){if(!playInstant(SOUND_BUZZ_IN))playClip(SOUND_BUZZ_IN)}
 function playWinningMusic(){state.winFlash=Date.now();lastWinFlash=state.winFlash;winningSound();save();render()}
 function tone(freq,dur){try{let A=audio(),o=A.createOscillator(),g=A.createGain();o.frequency.value=freq;o.connect(g);g.connect(A.destination);g.gain.setValueAtTime(.1,A.currentTime);g.gain.exponentialRampToValueAtTime(.001,A.currentTime+dur);o.start();o.stop(A.currentTime+dur)}catch(e){}}
 function setTeamName(team,value){if(team==="A")state.teamA=value;else state.teamB=value;localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud();document.querySelectorAll(".score").forEach((el,i)=>{const name=i%2===0?(state.teamA||"TEAM A"):(state.teamB||"TEAM B");el.childNodes[0].nodeValue=name;});}
@@ -109,6 +110,7 @@ const buzzerSide=()=>new URLSearchParams(location.search).get("buzzer");
 function buzzerName(side){return side==="A"?(state.teamA||"TEAM A"):(state.teamB||"TEAM B")}
 async function buzz(side){
   if(state.buzzWinner)return;
+  try{const a=new Audio(SOUND_BUZZ_IN);a.preload="auto";a.volume=1;await a.play()}catch(e){}
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
     const rows=await r.json(),row=rows[0];
