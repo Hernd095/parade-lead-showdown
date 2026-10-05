@@ -73,8 +73,12 @@ const SOUND_NEXT="./face-off-family-feud-2.mp3";
 const SOUND_WIN="./family-feud-returning-from-commercial.mp3";
 const isAudience=()=>new URLSearchParams(location.search).has("audience");
 const soundPlayers={};
+let audioCtx=null,audioBuffers={},audioPriming=false;
+async function primeInstantAudio(){if(!isAudience()||audioPriming)return;audioPriming=true;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")await audioCtx.resume();for(const src of [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN]){if(!audioBuffers[src]){const r=await fetch(src,{cache:"force-cache"});audioBuffers[src]=await audioCtx.decodeAudioData(await r.arrayBuffer())}}}catch(e){}audioPriming=false}
+function playInstant(src){if(!isAudience()||!audioCtx||!audioBuffers[src])return false;try{const s=audioCtx.createBufferSource();s.buffer=audioBuffers[src];s.connect(audioCtx.destination);s.start(0);return true}catch(e){return false}}
 function primeSounds(){
   if(!isAudience())return;
+  primeInstantAudio();
   [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN].forEach(src=>{
     if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
     const a=soundPlayers[src];a.muted=true;
@@ -89,9 +93,9 @@ function playClip(src){
     const p=a.play();if(p&&p.catch)p.catch(()=>{});
   }catch(e){}
 }
-if(isAudience()){document.addEventListener("pointerdown",primeSounds,{once:true});document.addEventListener("keydown",primeSounds,{once:true})}
+if(isAudience()){primeInstantAudio();document.addEventListener("pointerdown",primeSounds,{once:true});document.addEventListener("keydown",primeSounds,{once:true});window.addEventListener("load",primeInstantAudio,{once:true})}
 function answerSound(){playClip(SOUND_REVEAL)}
-function buzzerSound(){playClip(SOUND_BUZZER)}
+function buzzerSound(){if(!playInstant(SOUND_BUZZER))playClip(SOUND_BUZZER)}
 function nextQuestionSound(){playClip(SOUND_NEXT)}
 function winningSound(){playClip(SOUND_WIN)}
 function playWinningMusic(){state.winFlash=Date.now();lastWinFlash=state.winFlash;winningSound();save();render()}
