@@ -314,3 +314,22 @@ body.audience .feudBoard .answer.covered{
   margin:0 !important;
   box-sizing:border-box !important;
 }
+
+/* Audience strike: larger version of the boxed X shown on the game board */
+body.audience .strikeOverlay{
+  background:#02040bcf;
+  font-size:min(58vw,560px);
+  line-height:.72;
+  color:#ff3434;
+  -webkit-text-stroke:clamp(3px,.45vw,7px) #7a0000;
+  text-shadow:0 0 16px #ff5a5a,0 0 42px #ff0000,0 8px 0 #430000;
+}
+body.audience .strikeOverlay::before{
+  width:min(72vw,780px);
+  height:min(62vw,650px);
+  max-height:78vh;
+  border:clamp(12px,1.5vw,22px) solid #ff3434;
+  border-radius:clamp(42px,5vw,82px);
+  background:linear-gradient(145deg,#300000f2,#080000f5);
+  box-shadow:0 0 0 clamp(5px,.55vw,9px) #790000,0 0 26px #ff3434,0 0 85px #ff0000,inset 0 0 48px #9b0000;
+}
