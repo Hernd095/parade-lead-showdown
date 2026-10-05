@@ -102,6 +102,7 @@ function playWinningMusic(){state.winFlash=Date.now();lastWinFlash=state.winFlas
 function tone(freq,dur){try{let A=audio(),o=A.createOscillator(),g=A.createGain();o.frequency.value=freq;o.connect(g);g.connect(A.destination);g.gain.setValueAtTime(.1,A.currentTime);g.gain.exponentialRampToValueAtTime(.001,A.currentTime+dur);o.start();o.stop(A.currentTime+dur)}catch(e){}}
 function setTeamName(team,value){if(team==="A")state.teamA=value;else state.teamB=value;localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud();document.querySelectorAll(".score").forEach((el,i)=>{const name=i%2===0?(state.teamA||"TEAM A"):(state.teamB||"TEAM B");el.childNodes[0].nodeValue=name;});}
 function board(){if(state.welcome!==false)return `<div class="welcomeBoard"><div class="welcomeLogo"><span>PARADE LEAD</span><strong>SHOWDOWN</strong><small>GET READY TO PLAY!</small></div></div>`;let q=questions[state.round];state.teamA=state.teamA||"TEAM A";state.teamB=state.teamB||"TEAM B";return `<div class="board"><div class="question">${q.q}</div><div class="answers">${q.answers.map((a,i)=>`<div class="answer ${state.revealed.includes(i)?"":"covered"}"><div class="num">${i+1}</div><div class="txt">${a[0]}</div><div class="pts">${a[1]}</div></div>`).join("")}</div><div class="scores"><div class="score">${state.teamA}<b>${state.a}</b></div><div class="bank">BANK<b>${bank()}</b><div>${"✕".repeat(state.strikes)}</div></div><div class="score">${state.teamB}<b>${state.b}</b></div></div></div>`}
+function fitHostPreview(){const p=document.querySelector("#host .hostPreview");if(!p)return;p.style.setProperty("--preview-scale",Math.min(p.clientWidth/1600,p.clientHeight/900))}
 function render(){
   document.getElementById("game").innerHTML=board();
   let q=questions[state.round], teamA=state.teamA||"TEAM A", teamB=state.teamB||"TEAM B";
@@ -124,6 +125,7 @@ function render(){
       </div>
     </div>
   </div>`;
+  requestAnimationFrame(fitHostPreview);
   document.getElementById("editor").innerHTML=`<div class="panel"><h2>Question Editor</h2><label>Round</label><select onchange="state.round=+this.value;save();render()">${questions.map((x,i)=>`<option value="${i}" ${i===state.round?"selected":""}>${i+1}. ${x.q}</option>`).join("")}</select><label>Question</label><textarea id="eq">${q.q}</textarea><h3>Answers</h3>${q.answers.map((x,i)=>`<div class="editAns"><input id="ea${i}" value="${x[0].replaceAll('"','&quot;')}"><input id="ep${i}" type="number" value="${x[1]}"><button class="danger" onclick="delAns(${i})">×</button></div>`).join("")}<div class="controls"><button onclick="addAns()">+ Answer</button><button onclick="saveEdit()">Save Changes</button><button onclick="exportGame()">Export JSON</button><button class="danger" onclick="resetAll()">Reset Default</button></div></div>`;
 }
 function showFirstQuestion(){state.welcome=false;state.round=0;state.revealed=[];state.strikes=0;state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound();save();render()}
