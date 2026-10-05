@@ -174,3 +174,29 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 #host .hostPreview .sideScore b{font-size:55px}
 #host .hostPreview .feudBoard .answer,#host .hostPreview .feudBoard .answer.covered{height:92px;min-height:92px}
 @media(max-width:760px){.feudBoard{padding:125px 15% 70px}.topBank{width:150px;height:90px;font-size:52px}.sideScore{width:90px;height:90px}.sideScore b{font-size:38px}.sideScore small{font-size:9px}.feudBoard .answer,.feudBoard .answer.covered{height:68px;min-height:68px}.feudBoard .answer.covered .num{width:46px;height:46px;font-size:26px}}
+
+/* Stage surround + keep bulbs fully inside the oval */
+.feudBoard{
+  isolation:isolate;
+  background:
+    linear-gradient(90deg,transparent 0 7%,#0a3c8a55 7.2% 7.7%,transparent 8% 15%,#1266cf33 15.2% 15.6%,transparent 16% 84%,#1266cf33 84.4% 84.8%,transparent 85% 92%,#0a3c8a55 92.3% 92.8%,transparent 93%),
+    radial-gradient(ellipse at center,#3a2428 0 57%,#11111c 58% 70%,#040a18 78% 100%);
+}
+.feudBoard:after{
+  content:"";
+  position:absolute;
+  inset:2.5% 1.2% 1.5%;
+  z-index:0;
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,#4a2a2c33 0,#25171dcc 72%,#171018 100%);
+  box-shadow:inset 0 0 75px #0008;
+  pointer-events:none;
+}
+.boardLightWall{
+  inset:4.5% 4.5% 5%;
+  z-index:1;
+  clip-path:ellipse(49% 47% at 50% 50%);
+  padding:3.5% 2.5%;
+  box-sizing:border-box;
+}
+.feudBoard .answers,.topBank,.sideScore,.boardStrikes{z-index:4}
