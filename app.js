@@ -62,7 +62,7 @@ function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));l
 function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));state=JSON.parse(localStorage.getItem("plsState")||JSON.stringify(state))}
 function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");render()}
 function bank(){return questions[state.round].answers.reduce((s,a,i)=>s+(state.revealed.includes(i)?a[1]:0),0)*state.mult}
-function reveal(i){if(i>=questions[state.round].answers.length||state.revealed.includes(i))return;state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
+function reveal(i){if(i>=questions[state.round].answers.length)return;if(state.revealed.includes(i)){state.revealed=state.revealed.filter(x=>x!==i);save();render();return}state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
 function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1800)}
 function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Date.now();flashStrike();save();render()}
 function award(t){state[t]+=bank();state.strikes=0;tone(900,.25);save();render()}
