@@ -106,10 +106,17 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 
 /* Classic marquee bulbs behind welcome logo */
 .welcomeBoard{position:relative}
-.welcomeBoard:before{content:"";position:absolute;inset:clamp(18px,2.8vw,42px);border-radius:30px;pointer-events:none;background:radial-gradient(circle,#fff7bd 0 22%,#ffd24a 24% 39%,#ff9d00 42% 53%,transparent 57%) 0 0/54px 54px;filter:drop-shadow(0 0 7px #ffc21c);opacity:.98;animation:marqueeGlow 1.15s ease-in-out infinite alternate}
+.welcomeBoard:before{content:none}
 .welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
 .welcomeLogo{z-index:2}
 @keyframes marqueeGlow{from{filter:drop-shadow(0 0 5px #ffc21c);opacity:.84}to{filter:drop-shadow(0 0 12px #fff0a0);opacity:1}}
+.marqueeBulbs{position:absolute;inset:24px;z-index:1;pointer-events:none}
+.marqueeBulbs i{position:absolute;width:18px;height:18px;border-radius:50%;background:#ffd24a;box-shadow:0 0 7px #ffae00,0 0 15px #ffae0066;animation:bulbSparkle calc(1.1s + (var(--i) % 7)*.17s) ease-in-out infinite alternate;animation-delay:calc((var(--i) % 13)*-.19s)}
+.marqueeBulbs i:nth-child(-n+16){top:0;left:calc((var(--i) - 1)*6.5%)}
+.marqueeBulbs i:nth-child(n+17):nth-child(-n+27){right:0;top:calc((var(--i) - 17)*9.6%)}
+.marqueeBulbs i:nth-child(n+28):nth-child(-n+43){bottom:0;right:calc((var(--i) - 28)*6.5%)}
+.marqueeBulbs i:nth-child(n+44){left:0;bottom:calc((var(--i) - 44)*9.6%)}
+@keyframes bulbSparkle{0%,38%{opacity:.42;transform:scale(.78);box-shadow:0 0 4px #ffae00}55%{opacity:1;transform:scale(1.38);background:#fff8c9;box-shadow:0 0 10px #fff,0 0 24px #ffd43b,0 0 38px #ff9d00}72%,100%{opacity:.7;transform:scale(.95);background:#ffd24a;box-shadow:0 0 7px #ffae00}}
 
 /* Live Display mirrors the complete Audience Board at a fixed 16:9 scale */
 #host .previewCard{overflow:hidden}
