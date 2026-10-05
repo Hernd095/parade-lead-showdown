@@ -68,9 +68,9 @@ function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Da
 function award(t){state[t]+=bank();state.strikes=0;tone(900,.25);save();render()}
 function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;if(state.round!==before){state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound()}save();render()}
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
-const SOUND_BUZZER="./family-feud-strike-sfx.mp3";
-const SOUND_NEXT="./transition-music.mp3";
-const SOUND_WIN="./winning-music.mp3";
+const SOUND_BUZZER="./family-feud-strike-sfx_kN6Z99k.mp3";
+const SOUND_NEXT="./face-off-family-feud-2.mp3";
+const SOUND_WIN="./family-feud-returning-from-commercial.mp3";
 const isAudience=()=>new URLSearchParams(location.search).has("audience");
 const soundPlayers={};
 function primeSounds(){
