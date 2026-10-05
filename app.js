@@ -23,13 +23,13 @@ async function pullCloud(){
     const rows=await r.json();
     if(rows[0]?.state?.state){
       applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
-      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0;
+      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0; lastWinFlash=state.winFlash||0;
       localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
       render(); applyingRemote=false;
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
   }catch(e){console.error("Cloud pull:",e)}
 }
-let lastCloud=""; let lastStrikeFlash=0; let lastNavFlash=0; let lastAnswerFlash=0;
+let lastCloud=""; let lastStrikeFlash=0; let lastNavFlash=0; let lastAnswerFlash=0; let lastWinFlash=0;
 async function pollCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
@@ -46,6 +46,7 @@ async function pollCloud(){
         if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}
         if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}
         if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}
+        if(state.winFlash&&state.winFlash!==lastWinFlash){lastWinFlash=state.winFlash;winningSound()}
         applyingRemote=false;
       }
     }
@@ -55,7 +56,7 @@ const DEFAULT_GAME=[{"q":"What's in the comfort kit?","answers":[["Bandages",30]
 let questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));
 let state=JSON.parse(localStorage.getItem("plsState")||'{"round":0,"revealed":[],"a":0,"b":0,"strikes":0,"mult":1,"teamA":"TEAM A","teamB":"TEAM B"}');
 const bc=("BroadcastChannel" in window)?new BroadcastChannel("parade-lead-showdown"):null;
-if(bc)bc.onmessage=e=>{if(e.data==="sync"){load();render();if(isAudience()){if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}}}};
+if(bc)bc.onmessage=e=>{if(e.data==="sync"){load();render();if(isAudience()){if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}if(state.winFlash&&state.winFlash!==lastWinFlash){lastWinFlash=state.winFlash;winningSound()}}}};
 window.addEventListener("storage",e=>{if(e.key==="plsState"||e.key==="plsQuestions"){load();render();if(isAudience()){if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}}}});
 function save(){localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));if(bc)bc.postMessage("sync");pushCloud()}
 function load(){questions=JSON.parse(localStorage.getItem("plsQuestions")||JSON.stringify(DEFAULT_GAME));state=JSON.parse(localStorage.getItem("plsState")||JSON.stringify(state))}
@@ -68,12 +69,13 @@ function award(t){state[t]+=bank();state.strikes=0;tone(900,.25);save();render()
 function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;if(state.round!==before){state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound()}save();render()}
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family-feud-strike-sfx.mp3";
-const SOUND_NEXT="./Family%20Feud%20theme%20-%20After%201st%20Fast%20Money%20-%20QuickSounds.com.mp3";
+const SOUND_NEXT="./transition-music.mp3";
+const SOUND_WIN="./winning-music.mp3";
 const isAudience=()=>new URLSearchParams(location.search).has("audience");
 const soundPlayers={};
 function primeSounds(){
   if(!isAudience())return;
-  [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT].forEach(src=>{
+  [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN].forEach(src=>{
     if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
     const a=soundPlayers[src];a.muted=true;
     const p=a.play();if(p&&p.then)p.then(()=>{a.pause();a.currentTime=0;a.muted=false}).catch(()=>{a.muted=false});
@@ -91,6 +93,8 @@ if(isAudience()){document.addEventListener("pointerdown",primeSounds,{once:true}
 function answerSound(){playClip(SOUND_REVEAL)}
 function buzzerSound(){playClip(SOUND_BUZZER)}
 function nextQuestionSound(){playClip(SOUND_NEXT)}
+function winningSound(){playClip(SOUND_WIN)}
+function playWinningMusic(){state.winFlash=Date.now();lastWinFlash=state.winFlash;winningSound();save();render()}
 function tone(freq,dur){try{let A=audio(),o=A.createOscillator(),g=A.createGain();o.frequency.value=freq;o.connect(g);g.connect(A.destination);g.gain.setValueAtTime(.1,A.currentTime);g.gain.exponentialRampToValueAtTime(.001,A.currentTime+dur);o.start();o.stop(A.currentTime+dur)}catch(e){}}
 function setTeamName(team,value){if(team==="A")state.teamA=value||"TEAM A";else state.teamB=value||"TEAM B";save();document.querySelectorAll(".score").forEach((el,i)=>{const name=i%2===0?state.teamA:state.teamB;const b=el.querySelector("b");el.childNodes[0].nodeValue=name;});}
 function board(){let q=questions[state.round];state.teamA=state.teamA||"TEAM A";state.teamB=state.teamB||"TEAM B";return `<div class="board"><div class="question">${q.q}</div><div class="answers">${q.answers.map((a,i)=>`<div class="answer ${state.revealed.includes(i)?"":"covered"}"><div class="num">${i+1}</div><div class="txt">${a[0]}</div><div class="pts">${a[1]}</div></div>`).join("")}</div><div class="scores"><div class="score">${state.teamA}<b>${state.a}</b></div><div class="bank">BANK<b>${bank()}</b><div>${"✕".repeat(state.strikes)}</div></div><div class="score">${state.teamB}<b>${state.b}</b></div></div></div>`}
@@ -111,7 +115,7 @@ function render(){
       </div>
       <div class="hostRight">
         <div class="consoleCard answerControl"><div class="consoleLabel">ROUND ${state.round+1} · HOST PREVIEW</div><h2>${q.q}</h2><div class="hostAnswers">${q.answers.map((x,i)=>`<button class="${state.revealed.includes(i)?"shown":""}" onclick="reveal(${i})"><b>${i+1}</b><span>${x[0]}</span><strong>${x[1]}</strong><small>${state.revealed.includes(i)?"SHOWN":"HIDDEN"}</small></button>`).join("")}</div><div class="miniActions"><button onclick="revealAll()">Reveal all</button><button onclick="hideAll()">Hide all</button></div></div>
-        <div class="consoleCard bankControl"><div><div class="consoleLabel">BANK</div><div class="bankNumber">${bank()}</div></div><div class="multControl"><div class="consoleLabel">MULTIPLIER</div><div class="scoreBtns">${[1,2,3].map(x=>`<button class="${state.mult===x?"selected":""}" onclick="state.mult=${x};save();render()">${x}x</button>`).join("")}</div></div><div class="awardBtns"><button onclick="award('a')">Award → ${teamA}</button><button onclick="award('b')">Award → ${teamB}</button></div></div>
+        <div class="consoleCard bankControl"><div><div class="consoleLabel">BANK</div><div class="bankNumber">${bank()}</div></div><div class="multControl"><div class="consoleLabel">MULTIPLIER</div><div class="scoreBtns">${[1,2,3].map(x=>`<button class="${state.mult===x?"selected":""}" onclick="state.mult=${x};save();render()">${x}x</button>`).join("")}</div></div><div class="awardBtns"><button onclick="award('a')">Award → ${teamA}</button><button onclick="award('b')">Award → ${teamB}</button><button class="winMusicBtn" onclick="playWinningMusic()">🏆 Play Winning Music</button></div></div>
         <div class="consoleCard strikeControl"><div class="strikeHead"><div class="consoleLabel">STRIKES</div><button onclick="state.strikes=0;save();render()">Clear strikes</button></div><div class="strikeTeam"><span>${teamA}</span><strong>${"✕".repeat(state.strikes)}</strong><button class="danger" onclick="strike()">+ Strike</button></div></div>
       </div>
     </div>
