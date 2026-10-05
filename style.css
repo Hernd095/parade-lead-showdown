@@ -110,3 +110,18 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
 .welcomeLogo{z-index:2}
 @keyframes marqueeGlow{from{filter:drop-shadow(0 0 5px #ffc21c);opacity:.84}to{filter:drop-shadow(0 0 12px #fff0a0);opacity:1}}
+
+/* Live Display mirrors the complete Audience Board at a fixed 16:9 scale */
+#host .previewCard{overflow:hidden}
+#host .previewCard .hostPreview{position:relative;width:100%;height:auto;aspect-ratio:16/9;margin-top:10px;overflow:hidden;border-radius:12px;background:#02091d}
+#host .hostPreview>.board,#host .hostPreview>.welcomeBoard{position:absolute;inset:0;width:1600px;height:900px;min-height:900px;max-width:none;margin:0;transform-origin:top left;transform:scale(var(--preview-scale,1));border-radius:0;box-sizing:border-box}
+#host .hostPreview>.board{padding:35px 42px}
+#host .hostPreview>.welcomeBoard{padding:45px}
+#host .hostPreview .question{font-size:42px;margin-bottom:22px}
+#host .hostPreview .answer,#host .hostPreview .answer.covered{height:78px;min-height:78px;font-size:27px}
+#host .hostPreview .answer .num,#host .hostPreview .answer .pts{font-size:28px}
+#host .hostPreview .scores{margin-top:24px}
+#host .hostPreview .score b,#host .hostPreview .bank b{font-size:42px}
+#host .hostPreview .welcomeLogo span{font-size:72px}
+#host .hostPreview .welcomeLogo strong{font-size:108px}
+#host .hostPreview .welcomeLogo small{font-size:17px}
