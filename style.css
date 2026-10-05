@@ -333,3 +333,58 @@ body.audience .strikeOverlay::before{
   background:linear-gradient(145deg,#300000f2,#080000f5);
   box-shadow:0 0 0 clamp(5px,.55vw,9px) #790000,0 0 26px #ff3434,0 0 85px #ff0000,inset 0 0 48px #9b0000;
 }
+
+/* Persistent strike indicators under board: large boxed X tiles */
+body.audience .boardStrikes{
+  bottom:18px;
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  color:transparent;
+  font-size:0;
+  letter-spacing:0;
+  text-shadow:none;
+}
+body.audience .boardStrikes::before{
+  content:"";
+}
+body.audience .boardStrikes{
+  color:#ff3434;
+  font-family:"Archivo Black";
+}
+/* Turn each text X into a strong boxed visual via text decoration */
+body.audience .boardStrikes{
+  font-size:58px;
+  line-height:1;
+  letter-spacing:22px;
+  -webkit-text-stroke:3px #8a0000;
+  text-shadow:
+    0 0 0 #ff3434,
+    0 0 10px #ff2020,
+    0 0 24px #ff0000;
+  padding:8px 18px 10px 36px;
+  border:6px solid #ff3434;
+  border-radius:18px;
+  background:linear-gradient(145deg,#2d0000e8,#090000ed);
+  box-shadow:0 0 0 3px #750000,0 0 18px #ff2424,0 0 42px #ff000088,inset 0 0 20px #790000;
+}
+body.audience .boardStrikes:empty{
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  min-height:0;
+}
+#host .hostPreview .boardStrikes{
+  font-size:58px;
+  line-height:1;
+  letter-spacing:22px;
+  padding:8px 18px 10px 36px;
+  border:6px solid #ff3434;
+  border-radius:18px;
+  background:linear-gradient(145deg,#2d0000e8,#090000ed);
+  box-shadow:0 0 0 3px #750000,0 0 18px #ff2424,inset 0 0 20px #790000;
+}
+#host .hostPreview .boardStrikes:empty{padding:0;border:0;background:transparent;box-shadow:none}
