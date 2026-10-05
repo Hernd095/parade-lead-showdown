@@ -142,3 +142,10 @@ radial-gradient(circle,#ffd24a 0 3px,transparent 4px) 0 0/32px 32px}
 #host .hostPreview .welcomeLogo span{font-size:72px}
 #host .hostPreview .welcomeLogo strong{font-size:108px}
 #host .hostPreview .welcomeLogo small{font-size:17px}
+
+/* Dense animated light field across welcome background */
+.lightField{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.lightField i{position:absolute;left:var(--x);top:var(--y);width:10px;height:10px;border-radius:50%;background:#ffc936;opacity:.24;box-shadow:0 0 4px #ffb000;animation:fieldChase 3.8s ease-in-out infinite;animation-delay:calc(var(--i)*-.037s);will-change:opacity,transform,filter}
+@keyframes fieldChase{0%,100%{opacity:.18;transform:scale(.7);filter:brightness(.65)}18%{opacity:.4;transform:scale(.9);filter:brightness(.9)}32%{opacity:1;transform:scale(1.45);filter:brightness(1.7);background:#fff8bd;box-shadow:0 0 8px #fff4aa,0 0 19px #ffc928}48%{opacity:.48;transform:scale(1);filter:brightness(1)}70%{opacity:.22;transform:scale(.75);filter:brightness(.72)}}
+.welcomeLogo{z-index:3}
+.welcomeBoard:after{z-index:2;background:#03102fa8}
