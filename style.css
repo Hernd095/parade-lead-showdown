@@ -445,3 +445,37 @@ body.buzzerMode .buzzerPage{position:absolute;inset:0;width:100%;height:100%;mar
 .qrBox{width:150px;height:150px;margin:0 auto 10px;padding:7px;border-radius:9px;background:white;box-sizing:border-box}
 .qrBox img{display:block;width:100%;height:100%}
 .buzzerSetup>.buzzerResetBtn{width:100%;padding:12px}
+
+/* Buzz winner lighting: split the 24-column bulb wall exactly down the middle.
+   Winning half becomes fully bright; the other half keeps its normal animation.
+   Reset Buzzers removes buzzWonA/B, restoring the normal animation everywhere. */
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+1),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+2),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+3),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+4),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+5),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+6),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+7),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+8),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+9),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+10),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+11),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+12),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+13),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+14),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+15),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+16),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+17),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+18),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+19),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+20),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+21),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+22),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+23),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+24){
+  animation:none!important;
+  opacity:1!important;
+  background:#fff9c7!important;
+  filter:brightness(2.15)!important;
+  box-shadow:0 0 10px #fff,0 0 24px #ffe55c,0 0 40px #ffc400!important;
+}
