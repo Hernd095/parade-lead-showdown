@@ -111,12 +111,12 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .welcomeLogo{z-index:2}
 @keyframes marqueeGlow{from{filter:drop-shadow(0 0 5px #ffc21c);opacity:.84}to{filter:drop-shadow(0 0 12px #fff0a0);opacity:1}}
 .marqueeBulbs{position:absolute;inset:24px;z-index:1;pointer-events:none}
-.marqueeBulbs i{position:absolute;width:18px;height:18px;border-radius:50%;background:#ffd24a;box-shadow:0 0 7px #ffae00,0 0 15px #ffae0066;animation:bulbChase 3s ease-in-out infinite;animation-delay:calc(var(--i)*-.055s);will-change:opacity,transform,filter}
+.marqueeBulbs i{position:absolute;width:18px;height:18px;border-radius:50%;background:#ffd24a;box-shadow:0 0 7px #ffae00,0 0 15px #ffae0066;animation:bulbTwinkle var(--dur) ease-in-out infinite;animation-delay:var(--delay);will-change:opacity,transform,filter,box-shadow}
 .marqueeBulbs i:nth-child(-n+16){top:0;left:calc((var(--i) - 1)*6.5%)}
 .marqueeBulbs i:nth-child(n+17):nth-child(-n+27){right:0;top:calc((var(--i) - 17)*9.6%)}
 .marqueeBulbs i:nth-child(n+28):nth-child(-n+43){bottom:0;right:calc((var(--i) - 28)*6.5%)}
 .marqueeBulbs i:nth-child(n+44){left:0;bottom:calc((var(--i) - 44)*9.6%)}
-@keyframes bulbChase{0%,100%{opacity:.48;transform:scale(.88);filter:brightness(.78)}18%{opacity:.7;transform:scale(1);filter:brightness(1)}30%{opacity:1;transform:scale(1.28);filter:brightness(1.55);background:#fff8c9;box-shadow:0 0 10px #fff,0 0 24px #ffd43b,0 0 36px #ff9d00}48%{opacity:.72;transform:scale(1);filter:brightness(1.05);background:#ffd24a}70%{opacity:.5;transform:scale(.9);filter:brightness(.82)}}
+@keyframes bulbTwinkle{0%,100%{opacity:.48;transform:scale(.9);filter:brightness(.78)}22%{opacity:.62;transform:scale(.96);filter:brightness(.92)}46%{opacity:1;transform:scale(var(--peak));filter:brightness(1.65);background:#fff8c9;box-shadow:0 0 10px #fff,0 0 24px #ffd43b,0 0 36px #ff9d00}68%{opacity:.7;transform:scale(1);filter:brightness(1.05);background:#ffd24a}82%{opacity:.52;transform:scale(.92);filter:brightness(.84)}}18%{opacity:.7;transform:scale(1);filter:brightness(1)}30%{opacity:1;transform:scale(1.28);filter:brightness(1.55);background:#fff8c9;box-shadow:0 0 10px #fff,0 0 24px #ffd43b,0 0 36px #ff9d00}48%{opacity:.72;transform:scale(1);filter:brightness(1.05);background:#ffd24a}70%{opacity:.5;transform:scale(.9);filter:brightness(.82)}}
 .welcomeBoard:after{content:"";position:absolute;inset:clamp(55px,7vw,105px);border-radius:45%;background:#03102fe8;box-shadow:0 0 50px #00102c;pointer-events:none}
 .welcomeLogo{z-index:2}
 
