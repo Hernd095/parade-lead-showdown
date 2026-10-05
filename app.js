@@ -23,13 +23,13 @@ async function pullCloud(){
     const rows=await r.json();
     if(rows[0]?.state?.state){
       applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
-      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0; lastWinFlash=state.winFlash||0;
+      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0; lastWinFlash=state.winFlash||0; lastBuzzAt=state.buzzAt||0;
       localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
       render(); applyingRemote=false;
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
   }catch(e){console.error("Cloud pull:",e)}
 }
-let lastCloud=""; let lastStrikeFlash=0; let lastNavFlash=0; let lastAnswerFlash=0; let lastWinFlash=0;
+let lastCloud=""; let lastStrikeFlash=0; let lastNavFlash=0; let lastAnswerFlash=0; let lastWinFlash=0; let lastBuzzAt=0;
 async function pollCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
@@ -47,6 +47,7 @@ async function pollCloud(){
         if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}
         if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}
         if(state.winFlash&&state.winFlash!==lastWinFlash){lastWinFlash=state.winFlash;winningSound()}
+        if(isAudience()&&state.buzzWinner&&state.buzzAt&&state.buzzAt!==lastBuzzAt){lastBuzzAt=state.buzzAt;playClip(SOUND_BUZZ_IN)}
         applyingRemote=false;
       }
     }
@@ -71,15 +72,16 @@ const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family-feud-strike-sfx_kN6Z99k.mp3";
 const SOUND_NEXT="./face-off-family-feud-2.mp3";
 const SOUND_WIN="./family-feud-returning-from-commercial.mp3";
+const SOUND_BUZZ_IN="./buzzed-in-family-feud-prob-wont-use.mp3";
 const isAudience=()=>new URLSearchParams(location.search).has("audience");
 const soundPlayers={};
 let audioCtx=null,audioBuffers={},audioPriming=false;
-async function primeInstantAudio(){if(!isAudience()||audioPriming)return;audioPriming=true;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")await audioCtx.resume();for(const src of [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN]){if(!audioBuffers[src]){const r=await fetch(src,{cache:"force-cache"});audioBuffers[src]=await audioCtx.decodeAudioData(await r.arrayBuffer())}}}catch(e){}audioPriming=false}
+async function primeInstantAudio(){if(!isAudience()||audioPriming)return;audioPriming=true;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")await audioCtx.resume();for(const src of [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN,SOUND_BUZZ_IN]){if(!audioBuffers[src]){const r=await fetch(src,{cache:"force-cache"});audioBuffers[src]=await audioCtx.decodeAudioData(await r.arrayBuffer())}}}catch(e){}audioPriming=false}
 function playInstant(src){if(!isAudience()||!audioCtx||!audioBuffers[src])return false;try{const s=audioCtx.createBufferSource();s.buffer=audioBuffers[src];s.connect(audioCtx.destination);s.start(0);return true}catch(e){return false}}
 function primeSounds(){
   if(!isAudience())return;
   primeInstantAudio();
-  [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN].forEach(src=>{
+  [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT,SOUND_WIN,SOUND_BUZZ_IN].forEach(src=>{
     if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
     const a=soundPlayers[src];a.muted=true;
     const p=a.play();if(p&&p.then)p.then(()=>{a.pause();a.currentTime=0;a.muted=false}).catch(()=>{a.muted=false});
