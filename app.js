@@ -23,13 +23,13 @@ async function pullCloud(){
     const rows=await r.json();
     if(rows[0]?.state?.state){
       applyingRemote=true; state=rows[0].state.state; questions=rows[0].state.questions||questions;
-      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0;
+      lastCloud=rows[0].updated_at||lastCloud; lastStrikeFlash=state.strikeFlash||0; lastAnswerFlash=state.answerFlash||0; lastNavFlash=state.navFlash||0;
       localStorage.setItem("plsQuestions",JSON.stringify(questions));localStorage.setItem("plsState",JSON.stringify(state));
       render(); applyingRemote=false;
     } else if(!new URLSearchParams(location.search).has("audience")) pushCloud();
   }catch(e){console.error("Cloud pull:",e)}
 }
-let lastCloud=""; let lastStrikeFlash=0; let lastAnswerFlash=0;
+let lastCloud=""; let lastStrikeFlash=0; let lastNavFlash=0; let lastAnswerFlash=0;
 async function pollCloud(){
   try{
     const r=await fetch(SUPABASE_URL+"/rest/v1/games?code=eq."+encodeURIComponent(GAME_CODE)+"&select=state,updated_at",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
@@ -45,6 +45,7 @@ async function pollCloud(){
         render();
         if(state.strikeFlash&&state.strikeFlash!==lastStrikeFlash){lastStrikeFlash=state.strikeFlash;flashStrike()}
         if(state.answerFlash&&state.answerFlash!==lastAnswerFlash){lastAnswerFlash=state.answerFlash;answerSound()}
+        if(state.navFlash&&state.navFlash!==lastNavFlash){lastNavFlash=state.navFlash;nextQuestionSound()}
         applyingRemote=false;
       }
     }
@@ -64,7 +65,7 @@ function reveal(i){if(i>=questions[state.round].answers.length||state.revealed.i
 function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1800)}
 function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Date.now();flashStrike();save();render()}
 function award(t){state[t]+=bank();state.revealed=[];state.strikes=0;tone(900,.25);save();render()}
-function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;if(state.round!==before)nextQuestionSound();save();render()}
+function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;if(state.round!==before){state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound()}save();render()}
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family%20feud%20buzzer%20-%20QuickSounds.com.mp3";
 const SOUND_NEXT="./Family%20Feud%20theme%20-%20After%201st%20Fast%20Money%20-%20QuickSounds.com.mp3";
