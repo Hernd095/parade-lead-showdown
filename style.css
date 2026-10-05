@@ -89,3 +89,5 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 #host .hostTopActions button{padding:8px 11px}
 @media(max-width:1150px){#host .hostGrid{grid-template-columns:1fr}#host .previewCard .hostPreview{height:360px}#host .hostPreview .board{width:166.666%;transform:scale(.6)}}
 @media(max-width:760px){#host .navCard{grid-template-columns:1fr 1fr}#host .navCard select{grid-column:1/-1}#host .teamControlGrid{grid-template-columns:1fr}#host .strikeTeam{grid-template-columns:1fr auto}#host .strikeTeam button{grid-column:1/-1}}
+
+#host .winMusicBtn{grid-column:1/-1;background:linear-gradient(#fff0a6,#f5b51b);color:#06112b;border-color:#ffe17a;font-weight:900}
