@@ -64,7 +64,7 @@ function bank(){return questions[state.round].answers.reduce((s,a,i)=>s+(state.r
 function reveal(i){if(i>=questions[state.round].answers.length||state.revealed.includes(i))return;state.revealed.push(i);answerSound();state.answerFlash=Date.now();save();render()}
 function flashStrike(){let o=document.getElementById("strikeOverlay");o.classList.remove("on");void o.offsetWidth;o.classList.add("on");buzzerSound();setTimeout(()=>o.classList.remove("on"),1800)}
 function strike(){state.strikes=Math.min(3,state.strikes+1);state.strikeFlash=Date.now();flashStrike();save();render()}
-function award(t){state[t]+=bank();state.revealed=[];state.strikes=0;tone(900,.25);save();render()}
+function award(t){state[t]+=bank();state.strikes=0;tone(900,.25);save();render()}
 function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questions.length-1,state.round+n));state.revealed=[];state.strikes=0;if(state.round!==before){state.navFlash=Date.now();lastNavFlash=state.navFlash;nextQuestionSound()}save();render()}
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family%20feud%20buzzer%20-%20QuickSounds.com.mp3";
