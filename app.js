@@ -68,7 +68,25 @@ function nav(n){const before=state.round;state.round=Math.max(0,Math.min(questio
 const SOUND_REVEAL="./Family%20Feud%20YES%20Ding%20-%20QuickSounds.com.mp3";
 const SOUND_BUZZER="./family%20feud%20buzzer%20-%20QuickSounds.com.mp3";
 const SOUND_NEXT="./Family%20Feud%20theme%20-%20After%201st%20Fast%20Money%20-%20QuickSounds.com.mp3";
-function playClip(src){if(!new URLSearchParams(location.search).has("audience"))return;try{const a=new Audio(src);a.volume=1;a.play().catch(()=>{})}catch(e){}}
+const isAudience=()=>new URLSearchParams(location.search).has("audience");
+const soundPlayers={};
+function primeSounds(){
+  if(!isAudience())return;
+  [SOUND_REVEAL,SOUND_BUZZER,SOUND_NEXT].forEach(src=>{
+    if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
+    const a=soundPlayers[src];a.muted=true;
+    const p=a.play();if(p&&p.then)p.then(()=>{a.pause();a.currentTime=0;a.muted=false}).catch(()=>{a.muted=false});
+  });
+}
+function playClip(src){
+  if(!isAudience())return;
+  try{
+    if(!soundPlayers[src]){const a=new Audio(src);a.preload="auto";soundPlayers[src]=a}
+    const a=soundPlayers[src];a.pause();a.currentTime=0;a.muted=false;a.volume=1;
+    const p=a.play();if(p&&p.catch)p.catch(()=>{});
+  }catch(e){}
+}
+if(isAudience()){document.addEventListener("pointerdown",primeSounds,{once:true});document.addEventListener("keydown",primeSounds,{once:true})}
 function answerSound(){playClip(SOUND_REVEAL)}
 function buzzerSound(){playClip(SOUND_BUZZER)}
 function nextQuestionSound(){playClip(SOUND_NEXT)}
