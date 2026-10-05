@@ -19,3 +19,30 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .hostPreview .scores{margin-top:18px}
 .hostPreview .score b,.hostPreview .bank b{font-size:31px}
 @media(max-width:760px){.hostPreview{height:300px}.hostPreview .board{width:200%;transform:scale(.5)}}
+
+/* Host control console layout */
+.hostConsole{max-width:1500px;margin:0 auto}
+.hostTopbar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#071637;border:1px solid #284b86;border-radius:16px;padding:14px 18px;margin-bottom:16px}
+.hostTopbar b{font-family:"Archivo Black";letter-spacing:1px}.hostTopbar b span{color:#ffc02e}.hostTopbar small{margin-left:14px;color:#91a7d0;font-weight:800;letter-spacing:2px}
+.hostTopActions{display:flex;gap:8px;flex-wrap:wrap}
+.hostGrid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(380px,.88fr);gap:16px;align-items:start}
+.hostLeft,.hostRight{display:flex;flex-direction:column;gap:16px;min-width:0}
+.consoleCard{background:linear-gradient(145deg,#0d275b,#061536);border:1px solid #31528b;border-radius:16px;padding:16px;box-shadow:0 12px 28px #0005;min-width:0}
+.consoleLabel{font-size:12px;font-weight:900;letter-spacing:1.5px;color:#9bb0d6}
+.previewCard{padding:14px}.previewCard .hostPreview{height:410px;margin-top:10px}
+.navCard{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto auto;gap:8px;align-items:center}.navCard select{margin:0;min-width:0}
+.teamControlGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.teamControl.activeTeam{border-color:#ffbf20}
+.teamRow{display:grid;grid-template-columns:32px 1fr;gap:8px;align-items:center}.teamRow b{background:#18386e;padding:10px;border-radius:7px;text-align:center}
+.bigScore{text-align:center;font-family:"Archivo Black";font-size:36px;color:#ffc02e;padding:12px}
+.scoreBtns{display:flex;gap:6px}.scoreBtns button{flex:1;min-width:0}
+.answerControl h2{margin:8px 0 14px}.hostAnswers{display:flex;flex-direction:column;gap:8px}
+.hostAnswers button{display:grid;grid-template-columns:34px minmax(0,1fr) 55px 65px;gap:8px;align-items:center;text-align:left;background:#18386e;border:1px solid #31528b}
+.hostAnswers button.shown{border-color:#ffc02e;background:#3c3d50}.hostAnswers button b{background:#102957;padding:8px;border-radius:6px;text-align:center}
+.hostAnswers button strong{color:#ffc02e;font-size:20px;text-align:right}.hostAnswers button small{text-align:right;color:#9bb0d6;font-weight:900}
+.miniActions{display:flex;gap:8px;margin-top:12px}.bankControl{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bankNumber{font-family:"Archivo Black";font-size:56px;line-height:1;color:#ffc02e;margin-top:6px}.multControl{align-self:center}
+.awardBtns{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}.awardBtns button{background:linear-gradient(#ffd35c,#e79200);color:#06112b;border-color:#ffd86a}
+.strikeHead{display:flex;justify-content:space-between;align-items:center;gap:8px}.strikeTeam{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:10px;border:1px solid #31528b;border-radius:12px;padding:10px}
+.strikeTeam strong{color:#ff2d36;font-size:22px}.strikeTeam button{grid-column:1/-1}.hostConsole button{font-weight:800}
+@media(max-width:1050px){.hostGrid{grid-template-columns:1fr}.previewCard .hostPreview{height:390px}}
+@media(max-width:700px){.hostTopbar{align-items:flex-start;flex-direction:column}.navCard,.teamControlGrid,.bankControl,.awardBtns{grid-template-columns:1fr}.hostAnswers button{grid-template-columns:30px minmax(0,1fr) 45px}.hostAnswers button small{display:none}}
