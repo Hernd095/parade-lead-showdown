@@ -206,3 +206,10 @@ textarea,input,select{width:100%;background:#020a21;color:#fff;border:1px solid 
 .feudBoard .answer,.feudBoard .answer.covered{width:100%;min-width:0;box-sizing:border-box}
 
 .feudBoard .answer.emptySlot{visibility:hidden;pointer-events:none}
+
+/* Audience-window override: keep the approved board proportions at any browser size */
+body.audience #game{width:100vw;height:100vh;overflow:hidden;padding:0}
+body.audience .feudBoard{position:absolute;inset:0;width:1600px;height:900px;min-height:900px;max-width:none;margin:0;padding:170px 288px 90px;box-sizing:border-box;transform-origin:top left;transform:scale(var(--audience-scale,1))}
+body.audience .feudBoard .answers{width:1000px;max-width:1000px;grid-template-columns:493px 493px;grid-template-rows:repeat(4,92px);min-height:404px}
+body.audience .feudBoard .answer,body.audience .feudBoard .answer.covered{width:493px;height:92px;min-height:92px}
+body.audience .feudBoard .answer.covered .num{width:64px;height:64px;font-size:36px}
