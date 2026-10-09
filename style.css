@@ -509,3 +509,34 @@ body.audience .welcomeBoard.christmasWelcome{width:100vw;height:100vh;aspect-rat
 /* Additional drifting snowflakes in the far left and right of the set. */
 .christmasWelcome .christmasSnow i:nth-child(9n){width:12px;height:12px;background:transparent;box-shadow:none;border-radius:0;opacity:.6}
 .christmasWelcome .christmasSnow i:nth-child(9n)::before{content:"❄";position:absolute;left:0;top:0;color:#e6f5ff;font-size:clamp(11px,1.1vw,19px);text-shadow:0 0 8px #8dc8ff}
+
+
+/* Christmas gameplay stage: preserve the working answer and buzzer system. */
+.feudBoard{
+ background:#08152e url("./Santa%20Fued.png") center center/100% 100% no-repeat!important;
+ isolation:isolate;
+}
+.feudBoard::before{
+ content:""!important;display:block!important;position:absolute!important;
+ inset:13% 16% 23%!important;border:12px solid #d58b19!important;border-radius:50%!important;
+ background:radial-gradient(ellipse at 50% 42%,#b71919 0%,#8f1014 70%,#530b12 100%)!important;
+ box-shadow:0 0 0 5px #672b10,0 0 0 10px #ffd35b,0 0 30px #ffb936,
+ inset 0 0 60px #3e000b!important;z-index:1!important;pointer-events:none!important;
+}
+.feudBoard::after{
+ content:"❄  ✦  ❄  ✦  ❄"!important;display:block!important;
+ position:absolute!important;top:10%!important;left:21%!important;width:58%!important;
+ color:#fff3bc!important;font-size:28px!important;letter-spacing:38px!important;
+ text-align:center!important;opacity:.72!important;text-shadow:0 0 12px #fff,0 0 22px #ffd447!important;
+ pointer-events:none!important;z-index:2!important;
+ animation:holidayTrimTwinkle 4.5s ease-in-out infinite alternate!important;
+}
+@keyframes holidayTrimTwinkle{0%{opacity:.35;filter:brightness(.8)}100%{opacity:.92;filter:brightness(1.35)}}
+.feudBoard .boardLightWall{z-index:2!important;inset:15% 17% 24%!important;border-radius:50%!important;overflow:hidden!important;opacity:.9!important;pointer-events:none!important}
+.feudBoard .boardLightWall i{width:8px!important;height:8px!important}
+.feudBoard .answers{z-index:4!important;background:#071124!important;border-color:#f8d67b!important;box-shadow:0 0 0 5px #3c130e,0 0 0 10px #d89821,0 0 26px #ffb92d99!important}
+.feudBoard .sideScore{z-index:5!important;border:5px solid #efb94b!important;background:linear-gradient(180deg,#931016,#490b10)!important;box-shadow:0 0 0 3px #3b140b,0 0 16px #f7a930!important}
+.feudBoard .sideB{background:linear-gradient(180deg,#167345,#06442d)!important}
+.feudBoard .sideScore b{text-shadow:2px 3px 0 #24120d!important}
+.feudBoard .topBank{z-index:5!important;border-color:#f9c95a!important;background:linear-gradient(180deg,#a52117,#4d0910)!important;box-shadow:0 0 0 3px #552410,0 0 20px #ffb322!important}
+.feudBoard .boardStrikes,.feudBoard .buzzWinnerBanner{z-index:7!important}
