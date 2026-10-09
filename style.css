@@ -781,3 +781,48 @@ body.audience:has(.feudBoard)::after{
 .feudBoard:not(.christmasWelcome) .boardLightWall>i{
  position:relative!important;z-index:1!important;
 }
+
+
+/* Welcome-only animation pass: no new artwork or duplicate oval layers.
+   Restore the existing perimeter bulbs and give them a gentle staggered chase. */
+.christmasWelcome .christmasMarquee{
+ display:block!important;
+ position:absolute!important;
+ left:18.1%!important;top:13.4%!important;
+ width:63.8%!important;height:54.8%!important;
+ z-index:3!important;pointer-events:none!important;
+ background:none!important;border:0!important;box-shadow:none!important;
+ filter:none!important;
+}
+.christmasWelcome .christmasMarquee i{
+ width:clamp(3px,.55vw,9px)!important;
+ height:clamp(3px,.55vw,9px)!important;
+ background:#fff1b4!important;
+ box-shadow:0 0 4px #fff2c3,0 0 9px #ffcc65!important;
+ opacity:.4!important;
+ animation:welcomeChasingBulbs 7.98s linear infinite!important;
+ animation-delay:calc(var(--light-delay) * -1)!important;
+}
+@keyframes welcomeChasingBulbs{
+ 0%,100%{opacity:.3;filter:brightness(.7)}
+ 12%{opacity:1;filter:brightness(2)}
+ 23%{opacity:.55;filter:brightness(1)}
+}
+.christmasWelcome .christmasTwinkles{display:block!important;z-index:4!important;opacity:1!important}
+.christmasWelcome .christmasTwinkles i{
+ width:clamp(2px,.42vw,7px)!important;height:clamp(2px,.42vw,7px)!important;
+ background:#fff6c6!important;
+ box-shadow:0 0 5px #ffe4a0,0 0 12px #fbc75d!important;
+ animation:welcomeSoftTwinkle var(--twinkle-duration) ease-in-out infinite!important;
+ animation-delay:var(--twinkle-delay)!important;
+}
+@keyframes welcomeSoftTwinkle{
+ 0%,100%{opacity:.08;transform:scale(.65);filter:brightness(.75)}
+ 50%{opacity:.8;transform:scale(1.2);filter:brightness(1.4)}
+}
+.christmasWelcome .christmasSnow{z-index:5!important}
+@media(prefers-reduced-motion:reduce){
+ .christmasWelcome .christmasMarquee i,.christmasWelcome .christmasTwinkles i{
+ animation:none!important;opacity:.45!important
+ }
+}
