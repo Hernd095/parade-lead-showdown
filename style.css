@@ -540,3 +540,34 @@ body.audience .welcomeBoard.christmasWelcome{width:100vw;height:100vh;aspect-rat
 .feudBoard .sideScore b{text-shadow:2px 3px 0 #24120d!important}
 .feudBoard .topBank{z-index:5!important;border-color:#f9c95a!important;background:linear-gradient(180deg,#a52117,#4d0910)!important;box-shadow:0 0 0 3px #552410,0 0 20px #ffb322!important}
 .feudBoard .boardStrikes,.feudBoard .buzzWinnerBanner{z-index:7!important}
+
+
+/* Title-screen lights are live DOM bulbs, not part of the flat background image.
+   Negative offsets start the chase immediately instead of waiting for first loop. */
+.christmasWelcome .christmasMarquee{
+  left:18.1%!important;top:13.4%!important;width:63.8%!important;height:54.8%!important;
+  z-index:5!important;overflow:visible!important;filter:drop-shadow(0 0 5px #ffc04a);
+}
+.christmasWelcome .christmasMarquee i{
+  width:clamp(5px,.85vw,15px)!important;height:clamp(5px,.85vw,15px)!important;
+  opacity:1!important;background:#ffda65!important;
+  box-shadow:0 0 4px 2px #fff6b0,0 0 12px 5px #ffb92a!important;
+  animation:liveSantaMarquee 8s linear infinite!important;
+  animation-delay:calc(var(--light-delay) * -1)!important;
+  will-change:filter,opacity;
+}
+@keyframes liveSantaMarquee{
+  0%,100%{opacity:.92;filter:brightness(1.1)}
+  12%{opacity:1;filter:brightness(2.9) drop-shadow(0 0 6px #fff6c0)}
+  22%{opacity:.94;filter:brightness(1.2)}
+}
+.christmasWelcome .christmasTwinkles{z-index:6!important}
+.christmasWelcome .christmasTwinkles i{
+  opacity:.6;animation:liveSantaTwinkle var(--twinkle-duration) ease-in-out infinite!important;
+  animation-delay:var(--twinkle-delay)!important;
+}
+@keyframes liveSantaTwinkle{
+  0%,100%{opacity:.3;transform:scale(.7);filter:brightness(.9)}
+  50%{opacity:1;transform:scale(1.65);filter:brightness(2.5)}
+}
+.christmasWelcome .christmasSnow{z-index:7!important}
