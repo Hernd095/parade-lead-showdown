@@ -479,3 +479,19 @@ body.buzzerMode .buzzerPage{position:absolute;inset:0;width:100%;height:100%;mar
   filter:brightness(2.15)!important;
   box-shadow:0 0 10px #fff,0 0 24px #ffe55c,0 0 40px #ffc400!important;
 }
+
+
+/* Santa's Friendly Fued: approved Christmas title artwork and lightweight live animation */
+.welcomeBoard.christmasWelcome{position:relative;isolation:isolate;display:block;width:100%;aspect-ratio:16/9;min-height:0;padding:0!important;margin:0;overflow:hidden;border:0;border-radius:0;background:#061127;box-shadow:none}
+.christmasWelcome .christmasScene{position:absolute;inset:0;background:url("./Santa%20Fued.png") center center/100% 100% no-repeat}
+.christmasWelcome .christmasMarquee{position:absolute;left:16.8%;top:12.2%;width:65.8%;height:58.2%;pointer-events:none}
+.christmasMarquee i{position:absolute;width:clamp(3px,.72vw,13px);height:clamp(3px,.72vw,13px);border-radius:50%;transform:translate(-50%,-50%);background:#fff3b5;box-shadow:0 0 5px 2px #ffdc66,0 0 16px 4px #ffb92a;opacity:.1;animation:christmasChase 7.98s linear infinite;animation-delay:var(--light-delay)}
+@keyframes christmasChase{0%,16%{opacity:.08;filter:brightness(.7)}22%,31%{opacity:.92;filter:brightness(1.6)}40%,100%{opacity:.08;filter:brightness(.7)}}
+.christmasWelcome .christmasSnow,.christmasWelcome .christmasTwinkles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.christmasSnow i{position:absolute;top:-7%;width:var(--snow-size);height:var(--snow-size);border-radius:50%;background:#fff;opacity:0;box-shadow:0 0 5px #e8f7ff;animation:christmasSnowFall var(--snow-duration) linear infinite;animation-delay:var(--snow-delay)}
+@keyframes christmasSnowFall{0%{transform:translate3d(0,-15px,0);opacity:0}7%{opacity:.75}85%{opacity:.65}100%{transform:translate3d(var(--snow-drift),105vh,0);opacity:0}}
+.christmasTwinkles i{position:absolute;width:clamp(2px,.55vw,9px);height:clamp(2px,.55vw,9px);border-radius:50%;background:#fffbd3;box-shadow:0 0 7px 3px #ffdf79,0 0 15px 5px #ffd044;animation:christmasTwinkle var(--twinkle-duration) ease-in-out infinite;animation-delay:var(--twinkle-delay)}
+@keyframes christmasTwinkle{0%,100%{opacity:.04;transform:scale(.65)}48%{opacity:.82;transform:scale(1.18)}}
+#host .hostPreview>.welcomeBoard.christmasWelcome{width:1600px!important;height:900px!important;min-height:900px!important;aspect-ratio:auto}
+body.audience .welcomeBoard.christmasWelcome{width:100vw;height:100vh;aspect-ratio:auto}
+@media(prefers-reduced-motion:reduce){.christmasSnow i,.christmasTwinkles i,.christmasMarquee i{animation:none!important;opacity:.15}}
