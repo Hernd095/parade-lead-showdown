@@ -620,3 +620,57 @@ body.audience .welcomeBoard.christmasWelcome{width:100vw;height:100vh;aspect-rat
 .feudBoard:not(.christmasWelcome) .boardLightWall i{
  background:#fff2c5!important;box-shadow:0 0 7px #ffe8aa,0 0 15px #e8b751!important;
 }
+
+
+/* Clean Classic Christmas gameplay — removes distracting oval and stage clutter.
+   No changes to welcome screen, answer mechanics, host controls or audio. */
+.feudBoard:not(.christmasWelcome){
+ background:radial-gradient(ellipse at 50% 38%,#17503b 0%,#0b3026 64%,#061d19 100%)!important;
+ border:0!important;box-shadow:none!important;
+}
+.feudBoard:not(.christmasWelcome)::before,
+.feudBoard:not(.christmasWelcome)::after{
+ content:none!important;display:none!important;
+}
+.feudBoard:not(.christmasWelcome) .boardLightWall{
+ display:none!important;
+}
+.feudBoard:not(.christmasWelcome) .answers{
+ background:#071e1b!important;
+ border:5px solid #d6aa57!important;
+ border-radius:12px!important;
+ box-shadow:0 0 0 3px #422c1a,0 14px 35px #0008!important;
+}
+.feudBoard:not(.christmasWelcome) .answer,
+.feudBoard:not(.christmasWelcome) .answer.covered{
+ border-radius:5px!important;
+ box-shadow:inset 0 1px #ffffff38,0 2px 5px #0005!important;
+}
+.feudBoard:not(.christmasWelcome) .answer.covered .num{
+ box-shadow:none!important;
+ border:0!important;
+}
+.feudBoard:not(.christmasWelcome) .topBank,
+.feudBoard:not(.christmasWelcome) .sideScore{
+ border:4px solid #e5c17a!important;
+ border-radius:9px!important;
+ box-shadow:0 5px 18px #0008!important;
+}
+.feudBoard:not(.christmasWelcome) .topBank{
+ background:linear-gradient(180deg,#9b1e2b,#5c101b)!important;
+}
+.feudBoard:not(.christmasWelcome) .sideScore b,
+.feudBoard:not(.christmasWelcome) .topBank{
+ text-shadow:0 2px 4px #0008!important;
+}
+/* Remove the inherited blue stage edge from audience-only game view. */
+body.audience:has(.feudBoard) {
+ background:#09291f!important;
+}
+body.audience:has(.feudBoard)::before,
+body.audience:has(.feudBoard)::after{
+ display:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+ .feudBoard:not(.christmasWelcome) *{transition:none!important}
+}
