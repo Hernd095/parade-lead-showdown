@@ -684,3 +684,63 @@ body.audience:has(.feudBoard)::after{
 .christmasWelcome .christmasTwinkles{z-index:1!important;opacity:.4!important}
 .christmasWelcome .christmasTwinkles i{width:4px!important;height:4px!important;box-shadow:0 0 4px #fff9d2,0 0 8px #ffd35e!important}
 .christmasWelcome .christmasSnow{z-index:2!important}
+
+
+/* Restore the buzzer-reactive background bulb wall on the clean gameplay screen. */
+.feudBoard:not(.christmasWelcome) .boardLightWall{
+ display:grid!important;
+ position:absolute!important;
+ inset:22px 5% 26px!important;
+ grid-template-columns:repeat(24,minmax(0,1fr))!important;
+ grid-template-rows:repeat(10,minmax(0,1fr))!important;
+ border-radius:0!important;
+ overflow:hidden!important;
+ z-index:0!important;
+ pointer-events:none!important;
+ opacity:1!important;
+}
+.feudBoard:not(.christmasWelcome) .boardLightWall i{
+ display:block!important;
+ width:11px!important;height:11px!important;
+ border-radius:50%!important;
+ background:#f9d67a!important;
+ opacity:.42!important;
+ box-shadow:0 0 5px #e9ac44!important;
+ animation:christmasBuzzerIdle var(--t,3s) ease-in-out infinite!important;
+ animation-delay:var(--d,0s)!important;
+}
+@keyframes christmasBuzzerIdle{
+ 0%,100%{opacity:.27;filter:brightness(.7);box-shadow:0 0 4px #f0b54b}
+ 50%{opacity:.8;filter:brightness(1.45);box-shadow:0 0 7px #fff1aa,0 0 16px #f2c24e}
+}
+/* The winner's exact 12 of 24 columns light up as a single half-wall. */
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+1),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+2),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+3),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+4),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+5),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+6),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+7),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+8),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+9),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+10),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+11),
+.feudBoard.buzzWonA .boardLightWall i:nth-child(24n+12),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+13),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+14),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+15),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+16),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+17),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+18),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+19),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+20),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+21),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+22),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+23),
+.feudBoard.buzzWonB .boardLightWall i:nth-child(24n+24){
+ animation:none!important;
+ opacity:1!important;
+ background:#fff9ce!important;
+ filter:brightness(2.3)!important;
+ box-shadow:0 0 10px #fff,0 0 24px #ffe15b,0 0 36px #ffc12c!important;
+}
