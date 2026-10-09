@@ -674,3 +674,13 @@ body.audience:has(.feudBoard)::after{
 @media(prefers-reduced-motion:reduce){
  .feudBoard:not(.christmasWelcome) *{transition:none!important}
 }
+
+
+/* Clean Christmas title: single artwork layer, no duplicate oval or artificial bulb ring. */
+.welcomeBoard.christmasWelcome::before,
+.welcomeBoard.christmasWelcome::after{content:none!important;display:none!important}
+.christmasWelcome .christmasScene{z-index:0!important;background-image:url("./Santa%20Fued.png")!important}
+.christmasWelcome .christmasMarquee{display:none!important}
+.christmasWelcome .christmasTwinkles{z-index:1!important;opacity:.4!important}
+.christmasWelcome .christmasTwinkles i{width:4px!important;height:4px!important;box-shadow:0 0 4px #fff9d2,0 0 8px #ffd35e!important}
+.christmasWelcome .christmasSnow{z-index:2!important}
