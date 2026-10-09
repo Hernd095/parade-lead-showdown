@@ -826,3 +826,7 @@ body.audience:has(.feudBoard)::after{
  animation:none!important;opacity:.45!important
  }
 }
+
+/* Approved animated welcome artwork: snow, tree/garland twinkles, and precisely aligned chasing bulbs are baked into the GIF. */
+.christmasWelcome .christmasScene{background-image:url('./santas_friendly_fued_snow_twinkles_restored.gif')!important}
+.christmasWelcome .christmasMarquee,.christmasWelcome .christmasTwinkles,.christmasWelcome .christmasSnow{display:none!important}
