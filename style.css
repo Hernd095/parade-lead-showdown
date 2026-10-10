@@ -830,3 +830,110 @@ body.audience:has(.feudBoard)::after{
 /* Approved animated welcome artwork: snow, tree/garland twinkles, and precisely aligned chasing bulbs are baked into the GIF. */
 .christmasWelcome .christmasScene{background-image:url('./santas_friendly_fued_snow_twinkles_restored.gif')!important}
 .christmasWelcome .christmasMarquee,.christmasWelcome .christmasTwinkles,.christmasWelcome .christmasSnow{display:none!important}
+
+
+/* 2026 holiday gameplay concept - isolated preview (?audience=1&holidayPreview=1).
+   Built from working answer/score DOM, never duplicated as a flat image. */
+.feudBoard.holidayPreview{
+  background:#08172f url("./Santa%20Fued.png") center/100% 100% no-repeat!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  overflow:hidden!important;isolation:isolate!important;
+  padding:170px 288px 90px!important;
+}
+.feudBoard.holidayPreview::before{
+  content:""!important;display:block!important;position:absolute!important;
+  inset:13% 15% 30%!important;border-radius:49%!important;
+  background:radial-gradient(ellipse at 50% 42%,#bc1c24 0%,#92101b 63%,#4d0b12 100%)!important;
+  border:12px solid #e7a83d!important;
+  box-shadow:0 0 0 5px #6b2a0d,0 0 0 12px #ffd477,0 0 25px #ffb83c,
+    inset 0 0 50px #3b020a!important;
+  z-index:1!important;pointer-events:none!important;
+}
+.feudBoard.holidayPreview::after{
+  content:""!important;display:block!important;position:absolute!important;
+  left:20%!important;right:20%!important;top:10%!important;height:8%!important;
+  background:radial-gradient(ellipse at 50% 80%,#296a39 0 45%,transparent 75%)!important;
+  border:0!important;box-shadow:0 10px 15px #04170d66!important;
+  z-index:2!important;pointer-events:none!important;
+}
+.feudBoard.holidayPreview .boardLightWall{
+  display:grid!important;position:absolute!important;inset:14% 16% 30%!important;
+  z-index:2!important;opacity:1!important;border-radius:48%!important;
+  overflow:hidden!important;pointer-events:none!important;
+  grid-template-columns:repeat(24,minmax(0,1fr))!important;
+  grid-template-rows:repeat(10,minmax(0,1fr))!important;
+  background:none!important;border:0!important;box-shadow:none!important;
+}
+.feudBoard.holidayPreview .boardLightWall::before,
+.feudBoard.holidayPreview .boardLightWall::after{display:none!important;content:none!important}
+.feudBoard.holidayPreview .boardLightWall>i{
+  width:9px!important;height:9px!important;border-radius:50%!important;
+  background:#ffe9a2!important;opacity:.45!important;
+  box-shadow:0 0 5px #ffd465!important;
+  animation:christmasBuzzerIdle var(--t,3s) ease-in-out infinite!important;
+  animation-delay:var(--d,0s)!important;
+}
+.feudBoard.holidayPreview .answers{
+  position:relative!important;z-index:4!important;
+  background:#081529!important;border:5px solid #f4c66c!important;
+  border-radius:8px!important;box-shadow:0 0 0 4px #581a0f,0 0 0 9px #d99a35,0 0 24px #ffb73588!important;
+}
+.feudBoard.holidayPreview .answer,
+.feudBoard.holidayPreview .answer.covered{
+  border:3px solid #ffdf90!important;border-radius:5px!important;
+  background:linear-gradient(180deg,#247cde 0%,#0863ca 42%,#063a9b 100%)!important;
+  box-shadow:inset 0 2px 7px #c8ebff77,0 2px 4px #0009!important;
+}
+.feudBoard.holidayPreview .answer.covered .num{
+  color:#fff!important;background:radial-gradient(ellipse,#1358ad 0%,#05265c 85%)!important;
+  text-shadow:0 2px 4px #000!important;border:2px solid #9bc9ff!important;
+}
+.feudBoard.holidayPreview .answer .num{
+  color:#fff!important;background:#092b67!important;border-right-color:#f9d88d!important;
+}
+.feudBoard.holidayPreview .answer .pts{color:#ffecaa!important;background:#092b67!important}
+.feudBoard.holidayPreview .sideScore{
+  z-index:6!important;border:5px solid #f9d47c!important;border-radius:9px!important;
+  background:linear-gradient(180deg,#a71b23,#510b12)!important;
+  box-shadow:0 0 0 3px #552b11,0 0 16px #ffbb4d!important;
+  width:172px!important;height:135px!important;top:42%!important;
+}
+.feudBoard.holidayPreview .sideA{left:3%!important}
+.feudBoard.holidayPreview .sideB{right:3%!important;background:linear-gradient(180deg,#13834a,#07432a)!important}
+.feudBoard.holidayPreview .sideScore small{font-size:18px!important;color:#fff8d7!important}
+.feudBoard.holidayPreview .sideScore b{font-size:62px!important;color:#fff!important}
+.feudBoard.holidayPreview .topBank{
+  z-index:6!important;top:28px!important;width:180px!important;height:86px!important;
+  font-size:55px!important;border:5px solid #f3c65d!important;
+  background:linear-gradient(180deg,#9c1923,#4c0c15)!important;
+  box-shadow:0 0 15px #ffc44b88!important;
+}
+.feudBoard.holidayPreview .boardStrikes,.feudBoard.holidayPreview .buzzWinnerBanner{z-index:9!important}
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+1),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+2),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+3),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+4),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+5),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+6),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+7),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+8),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+9),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+10),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+11),
+.feudBoard.holidayPreview.buzzWonA .boardLightWall>i:nth-child(24n+12),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+13),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+14),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+15),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+16),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+17),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+18),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+19),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+20),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+21),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+22),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+23),
+.feudBoard.holidayPreview.buzzWonB .boardLightWall>i:nth-child(24n+24){
+ animation:none!important;opacity:1!important;background:#fff9c7!important;
+ filter:brightness(2.5)!important;
+ box-shadow:0 0 9px #fff,0 0 23px #ffdc53,0 0 38px #ffc329!important;
+}
