@@ -937,3 +937,102 @@ body.audience:has(.feudBoard)::after{
  filter:brightness(2.5)!important;
  box-shadow:0 0 9px #fff,0 0 23px #ffdc53,0 0 38px #ffc329!important;
 }
+
+
+/* FINAL playable Christmas board: artwork is stage-only, all UI is live.
+   1600x900 geometry matches the approved blank artwork. */
+body.audience .feudBoard.holidayPreview,
+#host .hostPreview>.feudBoard.holidayPreview,
+.feudBoard.holidayPreview{
+ position:relative!important;
+ background:#06132a url("./a_wide_cinematic_brightly_lit_christmas_game_sho.png") center center/100% 100% no-repeat!important;
+ isolation:isolate!important;overflow:hidden!important;
+ padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+.feudBoard.holidayPreview::before,.feudBoard.holidayPreview::after{content:none!important;display:none!important}
+.feudBoard.holidayPreview .boardLightWall{display:none!important}
+.feudBoard.holidayPreview .holidayBuzzLights{position:absolute;inset:0;z-index:1;pointer-events:none}
+.feudBoard.holidayPreview .holidayBuzzA,.feudBoard.holidayPreview .holidayBuzzB{
+ position:absolute;top:7%;height:65%;width:23%;opacity:0;
+ transition:opacity .22s ease;mix-blend-mode:screen;
+}
+.feudBoard.holidayPreview .holidayBuzzA{left:0;background:radial-gradient(ellipse at 48% 44%,#ff3b37a8 0%,#ff28287a 42%,transparent 77%)}
+.feudBoard.holidayPreview .holidayBuzzB{right:0;background:radial-gradient(ellipse at 52% 44%,#44ff83ad 0%,#16f77c7d 42%,transparent 77%)}
+.feudBoard.holidayPreview.buzzWonA .holidayBuzzA,
+.feudBoard.holidayPreview.buzzWonB .holidayBuzzB{opacity:1;animation:holidayWinnerGlow 1.2s ease-in-out infinite alternate}
+@keyframes holidayWinnerGlow{from{filter:brightness(1.2)}to{filter:brightness(2.1)}}
+.feudBoard.holidayPreview .answers,
+body.audience .feudBoard.holidayPreview .answers,
+#host .hostPreview .feudBoard.holidayPreview .answers{
+ position:absolute!important;left:475px!important;top:196px!important;
+ width:650px!important;max-width:none!important;height:auto!important;min-height:0!important;
+ margin:0!important;padding:0!important;display:grid!important;
+ grid-template-columns:repeat(2,320px)!important;grid-auto-rows:75px!important;
+ grid-template-rows:none!important;column-gap:10px!important;row-gap:11px!important;
+ align-content:start!important;background:transparent!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ overflow:visible!important;z-index:4!important;
+}
+.feudBoard.holidayPreview .answer,
+.feudBoard.holidayPreview .answer.covered,
+body.audience .feudBoard.holidayPreview .answer,
+body.audience .feudBoard.holidayPreview .answer.covered,
+#host .hostPreview .feudBoard.holidayPreview .answer,
+#host .hostPreview .feudBoard.holidayPreview .answer.covered{
+ position:relative!important;width:320px!important;min-width:320px!important;max-width:320px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;
+ margin:0!important;box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:1fr 58px!important;grid-template-rows:1fr!important;
+ border:3px solid #ffd17a!important;border-radius:6px!important;
+ background:linear-gradient(180deg,#3a94ef 0%,#126acb 38%,#064096 100%)!important;
+ box-shadow:inset 0 2px 7px #d6efff99,inset 0 -5px 10px #00133f88,0 2px 6px #0008!important;
+ overflow:hidden!important;transform-origin:center!important;
+}
+.feudBoard.holidayPreview .answer.covered .num,
+body.audience .feudBoard.holidayPreview .answer.covered .num,
+#host .hostPreview .feudBoard.holidayPreview .answer.covered .num{
+ position:absolute!important;left:50%!important;top:50%!important;
+ transform:translate(-50%,-50%)!important;inset:auto!important;
+ width:59px!important;height:59px!important;min-width:59px!important;
+ display:grid!important;place-items:center!important;border-radius:50%!important;
+ border:2px solid #7ec6ff!important;background:radial-gradient(circle,#135fbe,#03235b)!important;
+ font-size:37px!important;color:#fff!important;text-shadow:0 2px 3px #000!important;
+ box-shadow:0 2px 7px #0009!important;
+}
+.feudBoard.holidayPreview .answer:not(.covered){animation:holidayAnswerFlip .48s ease-out both!important}
+@keyframes holidayAnswerFlip{0%{transform:perspective(800px) rotateX(-86deg);opacity:.35}70%{transform:perspective(800px) rotateX(8deg);opacity:1}100%{transform:perspective(800px) rotateX(0);opacity:1}}
+.feudBoard.holidayPreview .answer .txt{font-size:20px!important;padding:0 9px!important;line-height:1.12!important}
+.feudBoard.holidayPreview .answer .pts{font-size:25px!important;background:#052c6a!important;color:#ffdd7e!important}
+.feudBoard.holidayPreview .answers.answerCount5 .answer:last-child,
+.feudBoard.holidayPreview .answers.answerCount7 .answer:last-child{grid-column:1/-1!important;justify-self:center!important}
+.feudBoard.holidayPreview .answers.answerCount3,
+.feudBoard.holidayPreview .answers.answerCount2,
+.feudBoard.holidayPreview .answers.answerCount1{
+ width:320px!important;left:640px!important;grid-template-columns:320px!important;
+}
+.feudBoard.holidayPreview .sideScore,
+body.audience .feudBoard.holidayPreview .sideScore{
+ position:absolute!important;top:361px!important;transform:none!important;
+ width:207px!important;height:97px!important;display:grid!important;place-items:center!important;
+ background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+ z-index:6!important;
+}
+.feudBoard.holidayPreview .sideA{left:163px!important;right:auto!important}
+.feudBoard.holidayPreview .sideB{right:163px!important;left:auto!important}
+.feudBoard.holidayPreview .sideScore small{display:none!important}
+.feudBoard.holidayPreview .sideScore b{
+ align-self:center!important;font-size:64px!important;line-height:1!important;
+ color:#fff9e7!important;text-shadow:0 2px 6px #000!important;
+}
+.feudBoard.holidayPreview .topBank{
+ position:absolute!important;top:635px!important;left:50%!important;
+ transform:translateX(-50%)!important;width:150px!important;height:75px!important;
+ display:grid!important;place-items:center!important;z-index:6!important;
+ font-size:46px!important;border:4px solid #e9b84c!important;border-radius:12px!important;
+ background:linear-gradient(#8d1324,#370e18)!important;box-shadow:0 3px 14px #0009!important;
+}
+.feudBoard.holidayPreview .boardStrikes{z-index:8!important;bottom:42px!important}
+.feudBoard.holidayPreview .buzzWinnerBanner{z-index:9!important}
+@media(prefers-reduced-motion:reduce){
+ .feudBoard.holidayPreview .answer:not(.covered),.feudBoard.holidayPreview .holidayBuzzA,.feudBoard.holidayPreview .holidayBuzzB{animation:none!important}
+}
