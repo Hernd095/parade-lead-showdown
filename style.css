@@ -1036,3 +1036,13 @@ body.audience .feudBoard.holidayPreview .sideScore{
 @media(prefers-reduced-motion:reduce){
  .feudBoard.holidayPreview .answer:not(.covered),.feudBoard.holidayPreview .holidayBuzzA,.feudBoard.holidayPreview .holidayBuzzB{animation:none!important}
 }
+
+/* Stable numbered answer order: 1–4 left, 5–8 right for eight answers. */
+.feudBoard.holidayPreview .answers>.answer{
+ grid-column:var(--holiday-col)!important;grid-row:var(--holiday-row)!important;
+ justify-self:stretch!important;
+}
+.feudBoard.holidayPreview .answers.answerCount5 .answer:last-child,
+.feudBoard.holidayPreview .answers.answerCount7 .answer:last-child{
+ grid-column:var(--holiday-col)!important;justify-self:stretch!important;
+}
