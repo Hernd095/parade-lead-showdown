@@ -1212,3 +1212,19 @@ body.audience .feudBoard.holidayPreview .answers>.answer.covered>.num,
 }
 .feudBoard.holidayPreview .answers>.answer.covered>.txt,
 .feudBoard.holidayPreview .answers>.answer.covered>.pts{display:none!important}
+
+
+/* Fix real tile-on-tile collision: old odd-answer centering spans both
+   columns in a row already occupied by another answer. Each tile now
+   uses its unique computed column and row (1-4 left, 5-8 right). */
+body.audience .feudBoard.holidayPreview .answers>.answer,
+body.audience .feudBoard.holidayPreview .answers>.answer:last-child,
+#host .hostPreview .feudBoard.holidayPreview .answers>.answer,
+#host .hostPreview .feudBoard.holidayPreview .answers>.answer:last-child,
+.feudBoard.holidayPreview .answers>.answer,
+.feudBoard.holidayPreview .answers>.answer:last-child{
+ grid-column:var(--holiday-col)!important;
+ grid-row:var(--holiday-row)!important;
+ justify-self:stretch!important;
+ align-self:stretch!important;
+}
