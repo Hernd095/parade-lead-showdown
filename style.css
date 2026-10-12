@@ -1107,3 +1107,43 @@ body.audience .feudBoard.holidayPreview .answers>.answer:last-child,
  font-size:clamp(13px,1.15vw,19px)!important;line-height:1.12!important;
 }
 .feudBoard.holidayPreview .answer .pts{min-width:0!important;overflow:hidden!important}
+
+
+/* 2026-10-12 screenshot-verified correction: center answers in the red stage,
+   and reset the number circle's conflicting inset:auto/top positioning. */
+body.audience .feudBoard.holidayPreview .answers,
+body.audience .feudBoard.holidayPreview .answers.answerCount8,
+body.audience .feudBoard.holidayPreview .answers.answerCount7,
+body.audience .feudBoard.holidayPreview .answers.answerCount6,
+body.audience .feudBoard.holidayPreview .answers.answerCount5,
+body.audience .feudBoard.holidayPreview .answers.answerCount4,
+body.audience .feudBoard.holidayPreview .answers.answerCount3,
+body.audience .feudBoard.holidayPreview .answers.answerCount2,
+body.audience .feudBoard.holidayPreview .answers.answerCount1,
+#host .hostPreview .feudBoard.holidayPreview .answers,
+.feudBoard.holidayPreview .answers{
+ top:242px!important;
+ height:307px!important;max-height:307px!important;
+ grid-template-rows:repeat(4,70px)!important;grid-auto-rows:70px!important;
+ row-gap:9px!important;
+}
+body.audience .feudBoard.holidayPreview .answers>.answer,
+body.audience .feudBoard.holidayPreview .answers>.answer.covered,
+#host .hostPreview .feudBoard.holidayPreview .answers>.answer,
+#host .hostPreview .feudBoard.holidayPreview .answers>.answer.covered,
+.feudBoard.holidayPreview .answers>.answer,
+.feudBoard.holidayPreview .answers>.answer.covered{
+ height:70px!important;min-height:70px!important;max-height:70px!important;
+}
+body.audience .feudBoard.holidayPreview .answer.covered .num,
+#host .hostPreview .feudBoard.holidayPreview .answer.covered .num,
+.feudBoard.holidayPreview .answer.covered .num{
+ position:absolute!important;
+ inset:0!important;top:0!important;right:0!important;bottom:0!important;left:0!important;
+ margin:auto!important;transform:none!important;
+ width:54px!important;height:54px!important;min-width:54px!important;
+ max-width:54px!important;min-height:54px!important;max-height:54px!important;
+ border:2px solid #a7d4ff!important;box-sizing:border-box!important;
+ font-size:32px!important;line-height:1!important;
+ display:grid!important;place-items:center!important;
+}
