@@ -147,6 +147,34 @@ function v2AnimateNewAnswer(){
     {transform:"perspective(700px) rotateX(0deg)",opacity:1}
   ],{duration:450,easing:"ease-out",iterations:1});
 }
+function organizeV2HostControls(){
+  const host=document.querySelector("#host .hostConsole");
+  if(!host)return;
+  const right=host.querySelector(".hostRight"),left=host.querySelector(".hostLeft");
+  if(!right||!left)return;
+  const toolbar=host.querySelector(".hostTopActions");
+  const nav=left.querySelector(".navCard");
+  const teams=left.querySelector(".teamControlGrid");
+  const answers=right.querySelector(".answerControl");
+  const bank=right.querySelector(".bankControl");
+  const strikes=right.querySelector(".strikeControl");
+  const buzzer=right.querySelector(".buzzerSetup");
+  right.classList.add("v2ControlCenter");
+  const title=document.createElement("h2");title.className="v2ControlTitle";title.textContent="GAME CONTROLS";
+  right.prepend(title);
+  if(toolbar){toolbar.classList.add("v2QuickActions");right.append(toolbar)}
+  if(nav)right.append(nav);
+  if(answers)right.append(answers);
+  if(bank)right.append(bank);
+  if(strikes)right.append(strikes);
+  if(teams)right.append(teams);
+  if(buzzer){
+    const details=document.createElement("details");
+    details.className="v2BuzzerDetails";
+    const summary=document.createElement("summary");summary.textContent="Buzzer setup & QR codes";
+    buzzer.before(details);details.append(summary,buzzer);
+  }
+}
 function render(){
   // Only animate an answer newly revealed since the previous render.
   // Music, scores, buzzer changes and other re-renders must not re-flip tiles.
@@ -179,6 +207,7 @@ function render(){
       </div>
     </div>
   </div>`;
+  organizeV2HostControls();
   requestAnimationFrame(()=>{fitHostPreview();fitAudienceBoard();if(!buzzerSide()){const base=new URL(location.href);base.searchParams.delete("audience");const a=new URL(base);a.searchParams.set("buzzer","A");const b=new URL(base);b.searchParams.set("buzzer","B");const qa=document.getElementById("qrA"),qb=document.getElementById("qrB");if(qa)qa.innerHTML='<img alt="Team A buzzer QR" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(a.toString())+'">';if(qb)qb.innerHTML='<img alt="Team B buzzer QR" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(b.toString())+'">'}});
   document.getElementById("editor").innerHTML=`<div class="panel"><h2>Question Editor</h2><label>Round</label><select onchange="state.round=+this.value;save();render()">${questions.map((x,i)=>`<option value="${i}" ${i===state.round?"selected":""}>${i+1}. ${x.q}</option>`).join("")}</select><label>Question</label><textarea id="eq">${q.q}</textarea><h3>Answers</h3>${q.answers.map((x,i)=>`<div class="editAns"><input id="ea${i}" value="${x[0].replaceAll('"','&quot;')}"><input id="ep${i}" type="number" value="${x[1]}"><button class="danger" onclick="delAns(${i})">×</button></div>`).join("")}<div class="controls"><button onclick="addAns()">+ Answer</button><button onclick="saveEdit()">Save Changes</button><button onclick="exportGame()">Export JSON</button><button class="danger" onclick="resetAll()">Reset Default</button></div></div>`;
 }
