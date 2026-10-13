@@ -168,6 +168,13 @@ function organizeV2HostControls(){
   if(bank)right.append(bank);
   if(strikes)right.append(strikes);
   if(teams)right.append(teams);
+  const preview=left.querySelector(".previewCard");
+  if(preview){
+    const bar=document.createElement("div");
+    bar.className="v2LiveBar";
+    bar.innerHTML='<strong>QUICK GAME CONTROLS</strong><div class="v2LiveButtons"><button onclick="award(\'a\')">Points → Team A</button><button onclick="award(\'b\')">Points → Team B</button><button onclick="openBuzzer(\'A\')">Buzzer A</button><button onclick="openBuzzer(\'B\')">Buzzer B</button><button onclick="nav(1)">Next Question ▶</button><button onclick="resetBuzzers()">Reset Buzzers</button><button onclick="playWinningMusic()">🏆 Winning Music</button></div>';
+    preview.insertAdjacentElement("afterend",bar);
+  }
   if(buzzer){
     const details=document.createElement("details");
     details.className="v2BuzzerDetails";
