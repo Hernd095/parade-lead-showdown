@@ -129,14 +129,22 @@ function v2Escape(x){return String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<
 function board(){if(state.welcome!==false&&!new URLSearchParams(location.search).has("holidayPreview"))return `<div class="welcomeBoard christmasWelcome"><div class="christmasScene" aria-label="Santa's Friendly Fued Christmas title screen"></div><div class="christmasMarquee">${Array.from({length:84},(_,i)=>{const angle=2*Math.PI*i/84;const x=50+47.3*Math.cos(angle),y=50+44.5*Math.sin(angle);return `<i style="left:${x}%;top:${y}%;--light-delay:${(i*.095).toFixed(2)}s"></i>`}).join("")}</div><div class="christmasTwinkles">${Array.from({length:52},(_,i)=>{const side=i%2===0;const x=side?(3+(i*19)%23):(75+(i*17)%22),y=5+(i*29)%72;return `<i style="left:${x}%;top:${y}%;--twinkle-delay:${-((i*17)%65)/10}s;--twinkle-duration:${2.6+(i%7)*.46}s"></i>`}).join("")}</div><div class="christmasSnow">${Array.from({length:85},(_,i)=>`<i style="left:${(i*71.31)%100}%;--snow-delay:${-((i*37)%190)/10}s;--snow-duration:${9+(i%11)*1.7}s;--snow-size:${2+(i%5)*1.25}px;--snow-drift:${(i%2?1:-1)*(16+(i*7)%55)}px"></i>`).join("")}</div></div>`;let q=questions[state.round];state.teamA=state.teamA||"TEAM A";state.teamB=state.teamB||"TEAM B";let n=q.answers.length,left=Math.ceil(n/2);return `<div class="board feudBoard v2Stage" data-winner="${state.buzzWinner||""}">
 <div class="v2Glow a"></div><div class="v2Glow b"></div>
 <div class="v2Score a">${state.a||0}</div><div class="v2Score b">${state.b||0}</div>
-<div class="v2Answers">${q.answers.map((a,i)=>`<div class="v2Tile ${state.revealed.includes(i)?"revealed":""}" style="grid-column:${n<=3?1:(i<left?1:2)};grid-row:${n<=3?i+1:(i<left?i+1:i-left+1)}"><span class="v2Num">${i+1}</span><span class="v2Text">${v2Escape(a[0])}</span><span class="v2Points">${a[1]}</span></div>`).join("")}</div>
+<div class="v2Answers">${q.answers.map((a,i)=>`<div class="v2Tile ${state.revealed.includes(i)?"revealed":""} ${i===v2FlipIndex?"justRevealed":""}" style="grid-column:${n<=3?1:(i<left?1:2)};grid-row:${n<=3?i+1:(i<left?i+1:i-left+1)}"><span class="v2Num">${i+1}</span><span class="v2Text">${v2Escape(a[0])}</span><span class="v2Points">${a[1]}</span></div>`).join("")}</div>
 <div class="v2Bank">${bank()}</div>
 <div class="v2Strikes">${"✕".repeat(state.strikes||0)}</div>
 ${state.buzzWinner?`<div class="v2Winner">${v2Escape(buzzerName(state.buzzWinner))} BUZZED IN FIRST!</div>`:""}
 </div>`}
 function fitHostPreview(){const p=document.querySelector("#host .hostPreview");if(!p)return;p.style.setProperty("--preview-scale",Math.min(p.clientWidth/1600,p.clientHeight/900))}
 function fitAudienceBoard(){if(!isAudience())return;const b=document.querySelector(".feudBoard");if(!b)return;const scale=Math.min(innerWidth/1600,innerHeight/900);b.style.setProperty("--audience-scale",scale);b.style.left=((innerWidth-1600*scale)/2)+"px";b.style.top=((innerHeight-900*scale)/2)+"px"}
+let v2PreviousRound=null, v2PreviousReveals=null, v2FlipIndex=-1;
 function render(){
+  // Only animate an answer newly revealed since the previous render.
+  // Music, scores, buzzer changes and other re-renders must not re-flip tiles.
+  const currentReveals=new Set(state.revealed||[]);
+  v2FlipIndex=(v2PreviousRound===state.round&&v2PreviousReveals!==null)
+    ? [...currentReveals].find(i=>!v2PreviousReveals.has(i))??-1 : -1;
+  v2PreviousRound=state.round;
+  v2PreviousReveals=currentReveals;
   if(buzzerSide()){document.getElementById("game").innerHTML=buzzerScreen(buzzerSide());return}
   document.getElementById("game").innerHTML=board();
   let q=questions[state.round], teamA=state.teamA||"TEAM A", teamB=state.teamB||"TEAM B";
