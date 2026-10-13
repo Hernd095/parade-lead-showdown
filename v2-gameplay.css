@@ -23,3 +23,25 @@
 body.audience .feudBoard.v2Stage{position:absolute!important;transform:scale(var(--audience-scale,1))!important;transform-origin:top left!important}
 #host .hostPreview>.feudBoard.v2Stage{position:absolute!important;left:0!important;top:0!important;transform:scale(var(--preview-scale,.3))!important;transform-origin:top left!important}
 \n/* Animations are explicitly triggered by JS only for the newly revealed tile. */\n.v2Stage .v2Tile,.v2Stage .v2Tile.revealed,.v2Stage .v2Tile.justRevealed{animation:none!important;transition:none!important}\n
+/* V2 host: one organized control center underneath a large live preview. */
+#host .hostConsole .hostGrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+#host .hostConsole .hostLeft{display:block!important;min-width:0!important}
+#host .hostConsole .hostRight.v2ControlCenter{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-items:start!important;min-width:0!important}
+#host .v2ControlCenter .v2ControlTitle{grid-column:1/-1;margin:6px 0 0;font-size:24px;color:#ffe1a1}
+#host .v2ControlCenter .v2QuickActions{grid-column:1/-1;display:flex!important;flex-wrap:wrap!important;gap:8px!important;padding:12px;background:#17233d;border:1px solid #415678;border-radius:12px}
+#host .v2ControlCenter .navCard{grid-column:1/-1;display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+#host .v2ControlCenter .navCard select{flex:1 1 220px;min-width:160px}
+#host .v2ControlCenter .answerControl{grid-column:1/-1}
+#host .v2ControlCenter .hostAnswers{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+#host .v2ControlCenter .bankControl{grid-column:1}
+#host .v2ControlCenter .strikeControl{grid-column:2}
+#host .v2ControlCenter .teamControlGrid{grid-column:1/-1;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+#host .v2ControlCenter .v2BuzzerDetails{grid-column:1/-1;background:#17233d;border:1px solid #415678;border-radius:12px;padding:12px}
+#host .v2BuzzerDetails summary{cursor:pointer;font-weight:800;color:#ffe1a1}
+#host .v2BuzzerDetails .buzzerSetup{margin-top:12px}
+#host .hostTopbar>.hostTopActions{display:none!important}
+@media(max-width:800px){
+ #host .hostConsole .hostRight.v2ControlCenter{grid-template-columns:minmax(0,1fr)!important}
+ #host .v2ControlCenter .bankControl,#host .v2ControlCenter .strikeControl{grid-column:1}
+ #host .v2ControlCenter .teamControlGrid,#host .v2ControlCenter .hostAnswers{grid-template-columns:minmax(0,1fr)!important}
+}
