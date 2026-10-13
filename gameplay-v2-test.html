@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Santa's Friendly Fued — Gameplay V2 Test</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070c18;color:white;font-family:system-ui,Arial,sans-serif}
+header{padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#101b2b}
+header strong{font-size:20px}header a{color:#ffdb83}main{max-width:1600px;margin:0 auto}
+.stage{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#071024 url("./a_wide_cinematic_brightly_lit_christmas_game_sho.png") center/100% 100% no-repeat;isolation:isolate}
+.buzzGlow{position:absolute;top:8%;height:65%;width:24%;pointer-events:none;opacity:0;mix-blend-mode:screen;transition:opacity .2s}
+.buzzGlow.a{left:0;background:radial-gradient(ellipse,#ff5b4a 0%,#ff231b99 36%,transparent 73%)}
+.buzzGlow.b{right:0;background:radial-gradient(ellipse,#53ff7a 0%,#18fa5b99 36%,transparent 73%)}
+.stage[data-winner="A"] .buzzGlow.a,.stage[data-winner="B"] .buzzGlow.b{opacity:1;animation:glow 1s ease-in-out infinite alternate}
+@keyframes glow{to{filter:brightness(2.2)}}
+.answers{position:absolute;left:30%;top:28%;width:40%;height:33%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));column-gap:1.3%;row-gap:3.5%;z-index:2}
+.tile{min-width:0;min-height:0;position:relative;display:grid;place-items:center;border:clamp(1px,.24vw,4px) solid #ffd67d;border-radius:clamp(3px,.4vw,7px);background:linear-gradient(180deg,#278fe6,#0d62c1 60%,#063b87);box-shadow:inset 0 2px 7px #c9e9ff8c,0 3px 8px #0008;overflow:hidden;transform-origin:center}
+.tile .number{display:grid;place-items:center;border:2px solid #a4d6ff;background:radial-gradient(circle,#2d7ed4,#063477);width:clamp(22px,3.3vw,54px);height:clamp(22px,3.3vw,54px);border-radius:50%;font-weight:900;font-size:clamp(13px,2.1vw,34px);text-shadow:0 2px 3px #000}
+.tile .answerText{display:none;text-align:center;padding:0 6px;width:100%;font-size:clamp(9px,1.4vw,23px);font-weight:850;text-shadow:0 2px 2px #001;overflow-wrap:anywhere}
+.tile .points{display:none;position:absolute;right:0;top:0;bottom:0;min-width:16%;padding:0 5px;background:#082e68;place-items:center;font-size:clamp(10px,1.6vw,24px);font-weight:900;color:#ffe28c}
+.tile.revealed{padding-right:16%;animation:flip .45s ease-out}
+.tile.revealed .number{display:none}.tile.revealed .answerText{display:block}.tile.revealed .points{display:grid}
+@keyframes flip{0%{transform:perspective(700px) rotateX(-85deg)}75%{transform:perspective(700px) rotateX(8deg)}100%{transform:perspective(700px) rotateX(0)}}
+.score{position:absolute;top:42.5%;width:12.4%;height:10%;display:grid;place-items:center;font-size:clamp(22px,4.3vw,68px);font-weight:900;text-shadow:0 3px 5px #000;z-index:3}
+.score.a{left:10.1%}.score.b{right:10.1%}
+.bank{position:absolute;top:74%;left:46%;width:8%;height:8%;display:grid;place-items:center;background:linear-gradient(#9c1727,#460c16);border:3px solid #e8b94c;border-radius:9px;font-size:clamp(16px,3.3vw,50px);font-weight:900;z-index:3}
+.winner{position:absolute;bottom:1.5%;left:35%;width:30%;text-align:center;background:#083a83;border:3px solid #ffbf40;border-radius:9px;padding:5px;font-size:clamp(11px,2vw,26px);font-weight:900;z-index:4;display:none}.stage[data-winner="A"] .winner,.stage[data-winner="B"] .winner{display:block}
+.controls{padding:20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+button,select{border:1px solid #aab6cb;background:#1b345c;color:#fff;border-radius:9px;padding:12px 15px;font-weight:750;cursor:pointer}
+button:hover{background:#28508a}button.a{background:#8f1a22}button.b{background:#176b40}
+.note{text-align:center;color:#b6c4d6;padding:0 15px 22px;font-size:14px}
+@media(prefers-reduced-motion:reduce){.tile.revealed,.stage[data-winner] .buzzGlow{animation:none}}
+</style></head>
+<body><header><strong>🎄 Santa's Friendly Fued — Gameplay V2 Test</strong><a href="./">Return to current game</a></header>
+<main><div class="stage" id="stage" data-winner="">
+<div class="buzzGlow a"></div><div class="buzzGlow b"></div>
+<div class="score a" id="scoreA">0</div><div class="score b" id="scoreB">0</div>
+<div class="answers" id="answers"></div><div class="bank" id="bank">0</div><div class="winner" id="winner"></div>
+</div><div class="controls">
+<label>Answers <select id="count"><option>8</option><option selected>7</option><option>6</option><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+<button id="reveal">Reveal next answer</button><button id="reset">Reset round</button>
+<button class="a" id="buzzA">Buzz Team A</button><button class="b" id="buzzB">Buzz Team B</button><button id="buzzReset">Reset buzzers</button>
+<button id="awardA">Award Team A</button><button id="awardB">Award Team B</button>
+</div><p class="note">Independent visual test only. It does not modify the live game's questions, scores, buzzers, or shared state.</p></main>
+<script>
+const samples=[["Bandages",35],["Insect Sting Swab",25],["Splinter Removal",20],["Throat Lozenges",15],["Moleskin",10],["Baby Powder",8],["Eye Wash",5],["Medical Gloves",3]];
+const stage=document.getElementById("stage"),grid=document.getElementById("answers");let count=7,revealed=new Set(),winner="",scores={A:0,B:0};
+function draw(){grid.innerHTML="";let left=Math.ceil(count/2);
+for(let i=0;i<count;i++){let tile=document.createElement("div");tile.className="tile"+(revealed.has(i)?" revealed":"");tile.style.gridColumn=i<left?1:2;tile.style.gridRow=i<left?i+1:i-left+1;
+const num=document.createElement("div");num.className="number";num.textContent=i+1;
+const label=document.createElement("div");label.className="answerText";label.textContent=samples[i][0];
+const pts=document.createElement("div");pts.className="points";pts.textContent=samples[i][1];tile.append(num,label,pts);grid.append(tile)}
+document.getElementById("bank").textContent=[...revealed].reduce((sum,i)=>sum+samples[i][1],0);
+document.getElementById("scoreA").textContent=scores.A;document.getElementById("scoreB").textContent=scores.B;
+stage.dataset.winner=winner;document.getElementById("winner").textContent=winner?"TEAM "+winner+" BUZZED IN FIRST!":""}
+document.getElementById("count").onchange=e=>{count=Number(e.target.value);revealed.clear();winner="";draw()};
+document.getElementById("reveal").onclick=()=>{for(let i=0;i<count;i++)if(!revealed.has(i)){revealed.add(i);break}draw()};
+document.getElementById("reset").onclick=()=>{revealed.clear();draw()};
+document.getElementById("buzzA").onclick=()=>{if(!winner){winner="A";draw()}};
+document.getElementById("buzzB").onclick=()=>{if(!winner){winner="B";draw()}};
+document.getElementById("buzzReset").onclick=()=>{winner="";draw()};
+document.getElementById("awardA").onclick=()=>{scores.A+=[...revealed].reduce((sum,i)=>sum+samples[i][1],0);draw()};
+document.getElementById("awardB").onclick=()=>{scores.B+=[...revealed].reduce((sum,i)=>sum+samples[i][1],0);draw()};
+draw();
+</script></body></html>
