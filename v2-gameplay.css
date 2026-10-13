@@ -45,3 +45,11 @@ body.audience .feudBoard.v2Stage{position:absolute!important;transform:scale(var
  #host .v2ControlCenter .bankControl,#host .v2ControlCenter .strikeControl{grid-column:1}
  #host .v2ControlCenter .teamControlGrid,#host .v2ControlCenter .hostAnswers{grid-template-columns:minmax(0,1fr)!important}
 }
+
+
+#host .v2LiveBar{margin:12px 0 16px;padding:15px;background:#162641;border:1px solid #567397;border-radius:12px;color:white}
+#host .v2LiveBar strong{display:block;color:#ffe0a1;font-size:15px;letter-spacing:.06em;margin-bottom:10px}
+#host .v2LiveButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#host .v2LiveButtons button{min-width:0;min-height:48px;padding:10px;border-radius:8px;font-weight:800;cursor:pointer}
+@media(max-width:900px){#host .v2LiveButtons{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){#host .v2LiveButtons{grid-template-columns:1fr}}
