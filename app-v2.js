@@ -174,6 +174,18 @@ function organizeV2HostControls(){
     bar.className="v2LiveBar";
     bar.innerHTML='<strong>QUICK GAME CONTROLS</strong><div class="v2LiveButtons"><button onclick="award(\'a\')">Points → Team A</button><button onclick="award(\'b\')">Points → Team B</button><button onclick="openBuzzer(\'A\')">Buzzer A</button><button onclick="openBuzzer(\'B\')">Buzzer B</button><button onclick="nav(1)">Next Question ▶</button><button onclick="resetBuzzers()">Reset Buzzers</button><button onclick="playWinningMusic()">🏆 Winning Music</button></div>';
     preview.insertAdjacentElement("afterend",bar);
+    // Always display both scan-to-buzz codes in the host quick controls.
+    const base=new URL(location.href);
+    base.searchParams.delete("audience");
+    base.searchParams.delete("buzzer");
+    const a=new URL(base),b=new URL(base);
+    a.searchParams.set("buzzer","A");
+    b.searchParams.set("buzzer","B");
+    const qr=document.createElement("div");
+    qr.className="v2LiveQR";
+    const makeCode=(side,url)=>'<div class="v2LiveQRTeam"><b>TEAM '+side+' BUZZER</b><img alt="Team '+side+' buzzer QR code" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(url)+'"><small>Scan to open Team '+side+' buzzer</small></div>';
+    qr.innerHTML=makeCode("A",a.toString())+makeCode("B",b.toString());
+    bar.append(qr);
   }
   if(buzzer){
     const details=document.createElement("details");
