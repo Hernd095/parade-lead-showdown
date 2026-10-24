@@ -53,3 +53,9 @@ body.audience .feudBoard.v2Stage{position:absolute!important;transform:scale(var
 #host .v2LiveButtons button{min-width:0;min-height:48px;padding:10px;border-radius:8px;font-weight:800;cursor:pointer}
 @media(max-width:900px){#host .v2LiveButtons{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){#host .v2LiveButtons{grid-template-columns:1fr}}
+
+#host .v2LiveQR{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid #506684}
+#host .v2LiveQRTeam{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px;background:#0c1a33;border:1px solid #42577c;border-radius:10px;text-align:center}
+#host .v2LiveQRTeam b{color:#ffe0a1;font-size:13px}
+#host .v2LiveQRTeam img{width:160px;height:160px;max-width:100%;background:white;padding:7px;border-radius:7px;object-fit:contain}
+#host .v2LiveQRTeam small{color:#cbdaf0}
